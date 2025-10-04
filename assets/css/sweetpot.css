@@ -1,0 +1,599 @@
+/**
+ * Estilos principales de SweetPot - Repostería Artesanal
+ */
+
+:root {
+    --sweetpot-pink: #ff6b9d;
+    --sweetpot-cream: #ffa7a7;
+    --sweetpot-brown: #FF8C55;
+    --sweetpot-light-pink: #ffcee2;
+    --sweetpot-dark-brown: #FF8C55;
+    --sweetpot-white: #ffffff;
+    --sweetpot-light-gray: #f8f9fa;
+    --sweetpot-gray: #6c757d;
+    --sweetpot-success: #28a745;
+    --sweetpot-warning: #ffc107;
+    --sweetpot-danger: #dc3545;
+    --sweetpot-info: #17a2b8;
+}
+
+/* Fuentes */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--sweetpot-brown);
+}
+
+/* Gradientes principales */
+.bg-sweetpot-gradient {
+    background: linear-gradient(135deg, var(--sweetpot-cream) 0%, var(--sweetpot-light-pink) 100%);
+}
+
+.bg-sweetpot-gradient-dark {
+    background: linear-gradient(135deg, var(--sweetpot-pink) 0%, var(--sweetpot-brown) 100%);
+}
+
+/* Colores de texto */
+.text-sweetpot-pink {
+    color: var(--sweetpot-pink) !important;
+}
+
+.text-sweetpot-brown {
+    color: var(--sweetpot-brown) !important;
+}
+
+.text-sweetpot-cream {
+    color: var(--sweetpot-cream) !important;
+}
+
+/* Colores de fondo */
+.bg-sweetpot-pink {
+    background-color: var(--sweetpot-pink) !important;
+}
+
+.bg-sweetpot-brown {
+    background-color: var(--sweetpot-brown) !important;
+}
+
+.bg-sweetpot-cream {
+    background-color: var(--sweetpot-cream) !important;
+}
+
+.bg-sweetpot-light-pink {
+    background-color: var(--sweetpot-light-pink) !important;
+}
+
+/* Botones personalizados */
+.btn-sweetpot-primary {
+    background: linear-gradient(135deg, var(--sweetpot-pink), var(--sweetpot-brown));
+    border: none;
+    color: white;
+    border-radius: 25px;
+    padding: 0.6rem 1.5rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.btn-sweetpot-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 107, 157, 0.3);
+    background: linear-gradient(135deg, var(--sweetpot-brown), var(--sweetpot-pink));
+    color: white;
+}
+
+.btn-sweetpot-secondary {
+    background-color: var(--sweetpot-light-pink);
+    border: 2px solid var(--sweetpot-pink);
+    color: var(--sweetpot-brown);
+    border-radius: 25px;
+    padding: 0.6rem 1.5rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-sweetpot-secondary:hover {
+    background-color: var(--sweetpot-pink);
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Cards personalizadas */
+.card-sweetpot {
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.card-sweetpot:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.card-sweetpot .card-header {
+    background: linear-gradient(135deg, var(--sweetpot-pink), var(--sweetpot-brown));
+    color: white;
+    border: none;
+    font-weight: bold;
+}
+
+/* Navbar personalizada */
+.navbar-sweetpot {
+    background: linear-gradient(135deg, var(--sweetpot-pink), var(--sweetpot-brown));
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-sweetpot .navbar-brand {
+    color: white !important;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.navbar-sweetpot .nav-link {
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.navbar-sweetpot .nav-link:hover {
+    color: white !important;
+}
+
+.navbar-sweetpot .navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Sidebar */
+.sidebar-sweetpot {
+    background: linear-gradient(180deg, var(--sweetpot-cream), var(--sweetpot-light-pink));
+    min-height: 100vh;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    color: white;
+}
+
+/* Para que todo el texto del sidebar sea blanco */
+.sidebar-sweetpot,
+.sidebar-sweetpot * {
+    color: white !important;
+}
+
+.sidebar-sweetpot .nav-link {
+    color: var(--sweetpot-brown);
+    padding: 0.8rem 1.2rem;
+    margin: 0.2rem 0;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.sidebar-sweetpot .nav-link:hover,
+.sidebar-sweetpot .nav-link.active {
+    background: linear-gradient(135deg, var(--sweetpot-pink), var(--sweetpot-brown));
+    color: white;
+    transform: translateX(5px);
+}
+
+.sidebar-sweetpot .nav-link i {
+    margin-right: 0.8rem;
+    width: 20px;
+    text-align: center;
+}
+
+/* Badges personalizadas */
+.badge-sweetpot-pink {
+    background-color: var(--sweetpot-pink);
+    color: white;
+}
+
+.badge-sweetpot-brown {
+    background-color: var(--sweetpot-brown);
+    color: white;
+}
+
+/* Estados de pedidos */
+.badge-estado-pendiente {
+    background-color: var(--sweetpot-warning);
+    color: var(--sweetpot-brown);
+}
+
+.badge-estado-en-proceso {
+    background-color: var(--sweetpot-info);
+    color: white;
+}
+
+.badge-estado-enviado {
+    background-color: var(--sweetpot-pink);
+    color: white;
+}
+
+.badge-estado-entregado {
+    background-color: var(--sweetpot-success);
+    color: white;
+}
+
+.badge-estado-cancelado {
+    background-color: var(--sweetpot-danger);
+    color: white;
+}
+
+/* Productos */
+.producto-card {
+    border: none;
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.producto-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.producto-card .card-img-top {
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.producto-card:hover .card-img-top {
+    transform: scale(1.05);
+}
+
+.producto-precio {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: var(--sweetpot-pink);
+}
+
+.producto-stock-bajo {
+    background-color: rgba(255, 193, 7, 0.1);
+    border-left: 4px solid var(--sweetpot-warning);
+}
+
+/* Carrito */
+.carrito-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: var(--sweetpot-danger);
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carrito-item {
+    border-bottom: 1px solid rgba(255, 107, 157, 0.2);
+    padding: 1rem 0;
+}
+
+.carrito-item:last-child {
+    border-bottom: none;
+}
+
+/* Formularios */
+.form-control:focus {
+    border-color: var(--sweetpot-pink);
+    box-shadow: 0 0 0 0.25rem rgba(255, 107, 157, 0.25);
+}
+
+.form-floating>label {
+    color: var(--sweetpot-brown);
+}
+
+.form-select:focus {
+    border-color: var(--sweetpot-pink);
+    box-shadow: 0 0 0 0.25rem rgba(255, 107, 157, 0.25);
+}
+
+/* Tablas */
+.table-sweetpot {
+    background-color: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.table-sweetpot thead {
+    background: linear-gradient(135deg, var(--sweetpot-pink), var(--sweetpot-brown));
+    color: white;
+}
+
+.table-sweetpot tbody tr:hover {
+    background-color: rgba(255, 107, 157, 0.05);
+}
+
+/* Alertas personalizadas */
+.alert-sweetpot {
+    border: none;
+    border-radius: 15px;
+    border-left: 4px solid var(--sweetpot-pink);
+    background-color: rgba(255, 107, 157, 0.1);
+    color: var(--sweetpot-brown);
+}
+
+/* Paginación */
+.pagination .page-link {
+    color: var(--sweetpot-pink);
+    border-color: var(--sweetpot-light-pink);
+}
+
+.pagination .page-link:hover {
+    color: white;
+    background-color: var(--sweetpot-pink);
+    border-color: var(--sweetpot-pink);
+}
+
+.pagination .page-item.active .page-link {
+    background-color: var(--sweetpot-pink);
+    border-color: var(--sweetpot-pink);
+}
+
+/* Breadcrumb */
+.breadcrumb {
+    background-color: rgba(255, 107, 157, 0.1);
+    border-radius: 25px;
+    padding: 0.8rem 1.5rem;
+}
+
+.breadcrumb-item+.breadcrumb-item::before {
+    content: "🍰";
+    color: var(--sweetpot-pink);
+}
+
+/* Modales */
+.modal-content {
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+    background: linear-gradient(135deg, var(--sweetpot-pink), var(--sweetpot-brown));
+    color: white;
+    border: none;
+    border-radius: 20px 20px 0 0;
+}
+
+/* Spinner personalizado */
+.spinner-sweetpot {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(255, 107, 157, 0.3);
+    border-top: 4px solid var(--sweetpot-pink);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Efectos de hover */
+.hover-sweetpot {
+    transition: all 0.3s ease;
+}
+
+.hover-sweetpot:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Footer */
+.footer-sweetpot {
+    background: linear-gradient(135deg, var(--sweetpot-brown), var(--sweetpot-dark-brown));
+    color: white;
+    padding: 2rem 0;
+}
+
+.footer-sweetpot a {
+    color: var(--sweetpot-light-pink);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-sweetpot a:hover {
+    color: white;
+}
+
+/* Iconos de redes sociales */
+.social-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 5px;
+    transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+    background: var(--sweetpot-pink);
+    transform: translateY(-3px);
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+
+    .btn-sweetpot-primary,
+    .btn-sweetpot-secondary {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .producto-card .card-img-top {
+        height: 150px;
+    }
+
+    .navbar-sweetpot .navbar-brand {
+        font-size: 1.2rem;
+    }
+}
+
+/* Animaciones */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+/* Utilidades adicionales */
+.shadow-sweetpot {
+    box-shadow: 0 10px 30px rgba(255, 107, 157, 0.2) !important;
+}
+
+.rounded-sweetpot {
+    border-radius: 20px !important;
+}
+
+.text-gradient-sweetpot {
+    background: linear-gradient(135deg, var(--sweetpot-pink), var(--sweetpot-brown));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: bold;
+}
+
+/* Efectos especiales */
+.floating {
+    animation: floating 3s ease-in-out infinite;
+}
+
+@keyframes floating {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.pulse-sweetpot {
+    animation: pulse-sweetpot 2s infinite;
+}
+
+@keyframes pulse-sweetpot {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 107, 157, 0.7);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgba(255, 107, 157, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 107, 157, 0);
+    }
+}
+
+/* Navbar Styles */
+.navbar-sweetpot {
+    background: linear-gradient(135deg, #ff6b9d 0%, #ff8e53 100%);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 0.8rem 0;
+}
+
+.navbar-sweetpot .navbar-brand {
+    color: #fff !important;
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+.navbar-sweetpot .navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    margin: 0 0.2rem;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.navbar-sweetpot .navbar-nav .nav-link:hover,
+.navbar-sweetpot .navbar-nav .nav-link.active {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #fff !important;
+}
+
+.navbar-sweetpot .navbar-toggler {
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 0.25rem 0.5rem;
+}
+
+.navbar-sweetpot .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.8%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Dropdown styles */
+.navbar-sweetpot .dropdown-menu {
+    border: none;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.navbar-sweetpot .dropdown-item {
+    padding: 0.7rem 1.2rem;
+    transition: all 0.3s ease;
+}
+
+.navbar-sweetpot .dropdown-item:hover {
+    background-color: #ff6b9d;
+    color: white;
+}
+
+/* Carrito badge */
+.carrito-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #ff4757;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+/* Responsive */
+@media (max-width: 991.98px) {
+    .navbar-sweetpot .navbar-nav {
+        text-align: center;
+        padding: 1rem 0;
+    }
+
+    .navbar-sweetpot .navbar-nav .nav-link {
+        margin: 0.2rem 0;
+    }
+}

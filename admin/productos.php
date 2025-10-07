@@ -50,6 +50,17 @@ try {
 
     // Obtener categorías para el filtro
     $categorias = $categoriaModel->listar();
+    // Normalizar resultados: soportar listar() que retorna ['data'=>...] o array directo
+    if (is_array($categorias) && isset($categorias['data'])) {
+        $categorias = $categorias['data'];
+    }
+    // Asegurar que sea un array de filas válidas con 'id' y 'nombre'
+    if (!is_array($categorias)) {
+        $categorias = [];
+    }
+    $categorias = array_values(array_filter($categorias, function ($c) {
+        return is_array($c) && isset($c['id']) && isset($c['nombre']);
+    }));
 
 } catch (Exception $e) {
     $error = "Error al cargar productos: " . $e->getMessage();
@@ -111,6 +122,8 @@ include '../includes/header.php';
                             <select class="form-select" id="categoria" name="categoria">
                                 <option value="">Todas las categorías</option>
                                 <?php foreach ($categorias as $cat): ?>
+                                    <?php if (!is_array($cat) || !isset($cat['id']))
+                                        continue; ?>
                                     <option value="<?php echo $cat['id']; ?>" <?php echo ($categoria == $cat['id']) ? 'selected' : ''; ?>>
                                         <?php echo htmlspecialchars($cat['nombre']); ?>
                                     </option>
@@ -222,7 +235,7 @@ include '../includes/header.php';
                                                 if ($producto['stock'] <= 5)
                                                     $stockClass = 'text-danger-stock';
                                                 elseif ($producto['stock'] <= 10)
-                                                    $stockClass = 'text-warning';
+                                                    $stockClass = 'text-danger-stock';
                                                 ?>
                                                 <span
                                                     class="<?php echo $stockClass; ?> fw-bold"><?php echo $producto['stock']; ?></span>

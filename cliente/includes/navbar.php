@@ -19,7 +19,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
 <nav class="navbar navbar-expand-lg navbar-sweetpot sticky-top">
     <div class="container">
         <a class="navbar-brand" href="dashboard.php">
-            <img src="assets/img/logo.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">
+            <img src="https://i.ibb.co/pjxGjNSR/Sweet-Pot-1.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">
             SweetPot
         </a>
 

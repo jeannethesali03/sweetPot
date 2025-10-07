@@ -525,10 +525,54 @@ function getEstadoIcon($estado)
                 </a>
             </div>
         <?php else: ?>
+            <!-- Filtros: búsqueda rápida por número/ticket/monto, estado y rango de fechas -->
+            <div class="filtros-pedidos d-flex flex-column flex-md-row gap-3 align-items-end mb-4">
+                <div class="flex-grow-1">
+                    <label class="filtro-label" for="filtroTexto">Buscar</label>
+                    <input id="filtroTexto" class="form-control" placeholder="Número de pedido, ticket o monto...">
+                </div>
+
+                <div style="width:180px;">
+                    <label class="filtro-label" for="filtroEstado">Estado</label>
+                    <select id="filtroEstado" class="form-select">
+                        <option value="">Todos</option>
+                        <option value="pendiente">Pendiente</option>
+                        <option value="confirmado">Confirmado</option>
+                        <option value="en_preparacion">En preparación</option>
+                        <option value="listo">Listo</option>
+                        <option value="entregado">Entregado</option>
+                        <option value="cancelado">Cancelado</option>
+                    </select>
+                </div>
+
+                <div style="width:150px;">
+                    <label class="filtro-label" for="filtroDesde">Desde</label>
+                    <input id="filtroDesde" type="date" class="form-control">
+                </div>
+
+                <div style="width:150px;">
+                    <label class="filtro-label" for="filtroHasta">Hasta</label>
+                    <input id="filtroHasta" type="date" class="form-control">
+                </div>
+
+                <div>
+                    <button id="resetFiltros" class="btn btn-outline-secondary">Limpiar</button>
+                </div>
+            </div>
+
             <div class="row">
                 <?php foreach ($pedidos as $pedido): ?>
+                    <?php
+                        // prepare normalized data attributes
+                        $data_numero = htmlspecialchars($pedido['numero_pedido'] ?? '');
+                        $data_ticket = htmlspecialchars($pedido['numero_ticket'] ?? '');
+                        $data_estado = htmlspecialchars($pedido['estado'] ?? '');
+                        $data_fecha = htmlspecialchars(date('Y-m-d', strtotime($pedido['fecha'] ?? '')));
+                        $data_monto = htmlspecialchars(number_format($pedido['total'] ?? 0, 2, '.', ''));
+                        $data_items = htmlspecialchars($pedido['total_items'] ?? 0);
+                    ?>
                     <div class="col-md-6 col-lg-4">
-                        <div class="card pedido-card">
+                        <div class="card pedido-card" data-numero="<?php echo $data_numero; ?>" data-ticket="<?php echo $data_ticket; ?>" data-estado="<?php echo $data_estado; ?>" data-fecha="<?php echo $data_fecha; ?>" data-monto="<?php echo $data_monto; ?>" data-items="<?php echo $data_items; ?>">
                             <div class="pedido-header">
                                 <div class="d-flex justify-content-between align-items-start">
                                     <div>
@@ -799,6 +843,93 @@ function getEstadoIcon($estado)
                 </div>
             `;
         }
+    </script>
+    <script>
+        // Filtro de pedidos: busca por número/ticket/monto/texto, estado y rango de fechas
+        (function () {
+            const filtroTexto = document.getElementById('filtroTexto');
+            const filtroEstado = document.getElementById('filtroEstado');
+            const filtroDesde = document.getElementById('filtroDesde');
+            const filtroHasta = document.getElementById('filtroHasta');
+            const resetBtn = document.getElementById('resetFiltros');
+
+            const cardsContainer = document.querySelectorAll('.pedido-card');
+
+            function normalize(s) {
+                return (s || '').toString().toLowerCase().trim();
+            }
+
+            function matchesFilter(card) {
+                const text = normalize(filtroTexto.value);
+                const estado = filtroEstado.value;
+                const desde = filtroDesde.value;
+                const hasta = filtroHasta.value;
+
+                const numero = normalize(card.dataset.numero);
+                const ticket = normalize(card.dataset.ticket);
+                const monto = normalize(card.dataset.monto);
+                const items = normalize(card.dataset.items);
+                const estadoCard = normalize(card.dataset.estado);
+                const fecha = card.dataset.fecha; // yyyy-mm-dd
+
+                // Texto: buscar en numero, ticket, monto, items
+                if (text) {
+                    if (!(numero.includes(text) || ticket.includes(text) || monto.includes(text) || items.includes(text))) {
+                        return false;
+                    }
+                }
+
+                // Estado
+                if (estado) {
+                    if (estadoCard !== estado) return false;
+                }
+
+                // Fecha rango
+                if (desde) {
+                    if (fecha < desde) return false;
+                }
+                if (hasta) {
+                    if (fecha > hasta) return false;
+                }
+
+                return true;
+            }
+
+            // Debounce helper
+            function debounce(fn, wait) {
+                let t;
+                return function () {
+                    clearTimeout(t);
+                    t = setTimeout(() => fn.apply(this, arguments), wait);
+                };
+            }
+
+            function runFilter() {
+                cardsContainer.forEach(card => {
+                    const visible = matchesFilter(card);
+                    card.closest('.col-md-6')?.classList.toggle('d-none', !visible);
+                });
+            }
+
+            const debouncedRun = debounce(runFilter, 220);
+
+            // Events
+            filtroTexto.addEventListener('input', debouncedRun);
+            filtroEstado.addEventListener('change', runFilter);
+            filtroDesde.addEventListener('change', runFilter);
+            filtroHasta.addEventListener('change', runFilter);
+            resetBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                filtroTexto.value = '';
+                filtroEstado.value = '';
+                filtroDesde.value = '';
+                filtroHasta.value = '';
+                runFilter();
+            });
+
+            // Initial run (in case inputs preserved by browser)
+            runFilter();
+        })();
     </script>
     <script>
         // Enable tap-to-toggle timeline on touch devices and click-to-toggle as fallback

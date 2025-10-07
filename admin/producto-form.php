@@ -181,6 +181,7 @@ include '../includes/header.php';
                                             <select class="form-select" id="categoria_id" name="categoria_id" required>
                                                 <option value="">Seleccionar categoría...</option>
                                                 <?php foreach ($categorias as $categoria): ?>
+                                                    <?php if (!is_array($categoria) || !isset($categoria['id'])) continue; ?>
                                                     <option value="<?php echo $categoria['id']; ?>" 
                                                         <?php echo ($producto['categoria_id'] ?? '') == $categoria['id'] ? 'selected' : ''; ?>>
                                                         <?php echo htmlspecialchars($categoria['nombre']); ?>
@@ -281,7 +282,7 @@ include '../includes/header.php';
                         </div>
                         <div class="card-body">
                             <!-- Vista previa de imagen -->
-                            <div id="image-preview" class="mb-3">
+                            <div id="image-preview" class="">
                                 <small class="text-muted">Vista Previa de la Imagen</small>
                                 <div class="mt-1">
                                     <img id="preview-img" class="img-fluid rounded" 
@@ -289,11 +290,7 @@ include '../includes/header.php';
                                          alt="Vista previa"
                                          style="max-height: 200px; width: 100%; object-fit: cover; <?php echo empty($producto['imagen']) ? 'display: none;' : ''; ?>">
                                     <div id="no-image" class="bg-light d-flex align-items-center justify-content-center rounded" 
-                                         style="height: 200px; <?php echo !empty($producto['imagen']) ? 'display: none;' : ''; ?>">
-                                        <div class="text-center text-muted">
-                                            <i class="fas fa-image fa-3x mb-2"></i>
-                                            <p>Sin imagen</p>
-                                        </div>
+                                         style="height: 5vh; <?php echo !empty($producto['imagen']) ? 'display: none;' : ''; ?>">
                                     </div>
                                 </div>
                             </div>

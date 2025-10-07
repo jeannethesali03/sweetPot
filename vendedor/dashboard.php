@@ -112,9 +112,8 @@ include '../includes/header.php';
                         </div>
                         <div
                             class="card-footer d-flex align-items-center justify-content-between bg-transparent border-0">
-                            <a class="small text-white stretched-link text-decoration-none" href="categorias.php">Ver
+                            <a class="small text-white stretched-link text-decoration-none" href="">Ver
                                 categorías</a>
-                            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                         </div>
                     </div>
                 </div>
@@ -134,7 +133,7 @@ include '../includes/header.php';
                         </div>
                         <div
                             class="card-footer d-flex align-items-center justify-content-between bg-transparent border-0">
-                            <a class="small text-white stretched-link text-decoration-none" href="inventario.php">Ver
+                            <a class="small text-white stretched-link text-decoration-none" href="productos.php">Ver
                                 inventario</a>
                             <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                         </div>
@@ -156,7 +155,7 @@ include '../includes/header.php';
                         </div>
                         <div
                             class="card-footer d-flex align-items-center justify-content-between bg-transparent border-0">
-                            <a class="small text-white stretched-link text-decoration-none" href="ventas.php">Ver
+                            <a class="small text-white stretched-link text-decoration-none" href="pedidos.php">Ver
                                 ventas</a>
                             <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                         </div>

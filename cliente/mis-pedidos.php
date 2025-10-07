@@ -90,6 +90,8 @@ function getEstadoIcon($estado)
     <title>Mis Pedidos - SweetPot</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <!-- SweetPot theme overrides -->
+    <link rel="stylesheet" href="../assets/css/sweetpot-theme.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="../assets/css/cliente.css">
     <style>
@@ -108,7 +110,7 @@ function getEstadoIcon($estado)
         }
 
         .pedido-header {
-            background: linear-gradient(135deg, var(--sweetpot-pink) 0%, var(--sweetpot-brown) 100%);
+            background: linear-gradient(135deg, var(--sp-pink) 0%, var(--sp-brown) 100%);
             color: white;
             border-radius: 20px 20px 0 0;
             padding: 1.5rem;
@@ -135,17 +137,17 @@ function getEstadoIcon($estado)
 
         .pedido-body {
             padding: 1.5rem;
-            background-color: var(--sweetpot-white);
+            background-color: var(--sp-cream, #fff);
         }
 
         .pedido-total {
             font-size: 1.5rem;
             font-weight: bold;
-            color: var(--sweetpot-pink);
+            color: var(--sp-pink);
         }
 
         .pedido-items {
-            color: var(--sweetpot-gray);
+            color: var(--sp-muted-gray);
             font-size: 0.9rem;
         }
 
@@ -154,8 +156,8 @@ function getEstadoIcon($estado)
             padding: 0.5rem 1.5rem;
             font-weight: 600;
             transition: all 0.3s ease;
-            border: 2px solid var(--sweetpot-pink);
-            color: var(--sweetpot-pink);
+            border: 2px solid var(--sp-pink);
+            color: var(--sp-pink);
             background: transparent;
         }
 
@@ -167,13 +169,13 @@ function getEstadoIcon($estado)
         }
 
         .btn-accion-primary {
-            background: linear-gradient(135deg, var(--sweetpot-pink), var(--sweetpot-brown));
+            background: linear-gradient(135deg, var(--sp-pink), var(--sp-brown));
             color: white;
             border: none;
         }
 
         .btn-accion-primary:hover {
-            background: linear-gradient(135deg, var(--sweetpot-brown), var(--sweetpot-pink));
+            background: linear-gradient(135deg, var(--sp-brown), var(--sp-pink));
             color: white;
         }
 
@@ -182,24 +184,24 @@ function getEstadoIcon($estado)
             height: 60px;
             border-radius: 10px;
             object-fit: cover;
-            border: 2px solid var(--sweetpot-light-pink);
+            border: 2px solid var(--sp-light-pink);
         }
 
         .empty-state {
             text-align: center;
             padding: 4rem 2rem;
-            color: var(--sweetpot-gray);
+            color: var(--sp-muted-gray);
         }
 
         .empty-state i {
             font-size: 4rem;
             margin-bottom: 1rem;
-            color: var(--sweetpot-light-pink);
+            color: var(--sp-light-pink);
             opacity: 0.7;
         }
 
         .hero-section {
-            background: linear-gradient(135deg, var(--sweetpot-pink) 0%, var(--sweetpot-brown) 100%);
+            background: linear-gradient(135deg, var(--sp-pink) 0%, var(--sp-brown) 100%);
             color: white;
             padding: 3rem 0;
             margin-bottom: 2rem;
@@ -228,28 +230,139 @@ function getEstadoIcon($estado)
 
         /* Estados de pedidos adaptados a SweetPot */
         .estado-pendiente {
-            background-color: var(--sweetpot-warning);
-            color: var(--sweetpot-brown);
+            background-color: var(--sp-light-pink);
+            color: var(--sp-dark-brown);
         }
 
         .estado-en-proceso {
-            background-color: var(--sweetpot-info);
+            background-color: var(--sp-active);
             color: white;
         }
 
         .estado-enviado {
-            background-color: var(--sweetpot-pink);
+            background-color: var(--sp-pink);
             color: white;
         }
 
         .estado-entregado {
-            background-color: var(--sweetpot-success);
+            background-color: #6aa86a;
             color: white;
         }
 
         .estado-cancelado {
-            background-color: var(--sweetpot-danger);
+            background-color: #c94a4a;
             color: white;
+        }
+
+        /* Timeline / progress view for order status */
+        .estado-timeline {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.36s ease, opacity 0.36s ease, transform 0.36s ease;
+            opacity: 0;
+            transform: translateY(-6px);
+            padding: 0 1.5rem;
+        }
+
+        .pedido-card:hover .estado-timeline,
+        .pedido-card.show-timeline .estado-timeline {
+            max-height: 240px;
+            opacity: 1;
+            transform: translateY(0);
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+
+        .timeline-steps {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .timeline-step {
+            flex: 1 1 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--sp-muted-gray);
+            position: relative;
+        }
+
+        .timeline-step .step-dot {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.06);
+            color: var(--sp-muted-gray);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            transition: background 0.28s ease, color 0.28s ease, transform 0.28s ease;
+        }
+
+        .timeline-step .step-dot i {
+            font-size: 16px;
+            line-height: 1;
+        }
+
+        .timeline-step.complete .step-dot {
+            background: var(--sp-pink);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .timeline-step.active .step-dot {
+            background: linear-gradient(135deg, var(--sp-pink), var(--sp-brown));
+            color: white;
+            box-shadow: 0 6px 18px rgba(160, 70, 90, 0.12);
+            transform: scale(1.12);
+        }
+
+        .timeline-step.cancelled .step-dot {
+            background: #c94a4a;
+            color: white;
+        }
+
+        .timeline-step::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: -50%;
+            height: 4px;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.06);
+            z-index: -1;
+            transition: background 0.28s ease;
+        }
+
+        .timeline-step:last-child::after {
+            display: none;
+        }
+
+        .timeline-step.complete::after {
+            background: linear-gradient(90deg, var(--sp-pink), var(--sp-brown));
+        }
+
+        .timeline-label {
+            font-size: 0.8rem;
+        }
+
+        .timeline-toggle {
+            background: rgba(255, 255, 255, 0.06);
+            border: none;
+            color: white;
+            width: 34px;
+            height: 34px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
         }
 
         /* Items del pedido */
@@ -452,6 +565,61 @@ function getEstadoIcon($estado)
                                     diferentes)
                                 </div>
 
+                                <!-- Estado timeline (hidden by default, show on hover or tap) -->
+                                <div class="estado-timeline" aria-hidden="true">
+                                    <div class="timeline-steps">
+                                        <?php
+                                        // Map the ordered statuses in desired sequence
+                                        $current = $pedido['estado'];
+
+                                        if ($current === 'cancelado') {
+                                            // When cancelled, show only 'en_proceso' (complete) and 'cancelado' (active)
+                                            $estados_seq = ['en_proceso', 'cancelado'];
+                                            foreach ($estados_seq as $idx => $st) {
+                                                $class = '';
+                                                if ($st === 'en_proceso')
+                                                    $class = 'complete';
+                                                if ($st === 'cancelado')
+                                                    $class = 'active cancelled';
+                                                // icon mapping
+                                                $iconMap = [
+                                                    'en_proceso' => 'bi-gear',
+                                                    'cancelado' => 'bi-x-circle'
+                                                ];
+                                                $icon = $iconMap[$st] ?? 'bi-question-circle';
+                                                ?>
+                                                <div class="timeline-step <?php echo $class; ?>">
+                                                    <div class="step-dot"><i class="<?php echo $icon; ?>"></i></div>
+                                                    <div class="timeline-label"><?php echo ucfirst(str_replace('_', ' ', $st)); ?></div>
+                                                </div>
+                                            <?php }
+                                        } else {
+                                            $estados_seq = ['pendiente', 'en_proceso', 'enviado', 'entregado'];
+                                            foreach ($estados_seq as $st) {
+                                                $class = '';
+                                                if ($st === $current)
+                                                    $class = 'active';
+                                                if ($st !== $current && (array_search($st, $estados_seq) < array_search($current, $estados_seq)))
+                                                    $class = 'complete';
+                                                // icon mapping
+                                                $iconMap = [
+                                                    'pendiente' => 'bi-clock',
+                                                    'en_proceso' => 'bi-gear',
+                                                    'enviado' => 'bi-truck',
+                                                    'entregado' => 'bi-check2-circle'
+                                                ];
+                                                $icon = $iconMap[$st] ?? 'bi-question-circle';
+                                                ?>
+                                                <div class="timeline-step <?php echo $class; ?>">
+                                                    <div class="step-dot"><i class="<?php echo $icon; ?>"></i></div>
+                                                    <div class="timeline-label"><?php echo ucfirst(str_replace('_', ' ', $st)); ?></div>
+                                                </div>
+                                            <?php }
+                                        }
+                                        ?>
+                                    </div>
+                                </div>
+
                                 <?php if (!empty($pedido['direccion_entrega'])): ?>
                                     <div class="mb-3">
                                         <small class="text-muted">
@@ -535,20 +703,14 @@ function getEstadoIcon($estado)
 
             modal.show();
 
-            // Cargar detalles
+            // Cargar detalles (el endpoint devuelve HTML listo para insertar en el modal)
             fetch(`ajax/obtener-detalle-pedido.php?id=${ventaId}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        mostrarDetalles(data.pedido, data.productos);
-                    } else {
-                        content.innerHTML = `
-                            <div class="alert alert-danger">
-                                <i class="bi bi-exclamation-triangle"></i>
-                                Error al cargar los detalles: ${data.message}
-                            </div>
-                        `;
-                    }
+                .then(response => response.text())
+                .then(html => {
+                    // Si el servidor devolvió HTML (p. ej. la vista parcial), lo insertamos tal cual
+                    // Si el endpoint en el futuro retorna JSON, esto seguirá funcionando si devuelve
+                    // una propiedad 'html' con el contenido; pero hoy insertamos directamente.
+                    content.innerHTML = html;
                 })
                 .catch(error => {
                     content.innerHTML = `
@@ -637,6 +799,37 @@ function getEstadoIcon($estado)
                 </div>
             `;
         }
+    </script>
+    <script>
+        // Enable tap-to-toggle timeline on touch devices and click-to-toggle as fallback
+        (function () {
+            const cards = document.querySelectorAll('.pedido-card');
+
+            function isTouch() {
+                return ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
+            }
+
+            cards.forEach(card => {
+                // Prevent toggling when clicking buttons or links inside card
+                card.addEventListener('click', function (e) {
+                    const target = e.target;
+                    if (target.closest('a') || target.closest('button') || target.closest('input')) return;
+
+                    // For touch devices, toggle on click (tap)
+                    if (isTouch()) {
+                        card.classList.toggle('show-timeline');
+                    }
+                });
+
+                // Also allow keyboard toggle for accessibility
+                card.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        card.classList.toggle('show-timeline');
+                        e.preventDefault();
+                    }
+                });
+            });
+        })();
     </script>
 </body>
 

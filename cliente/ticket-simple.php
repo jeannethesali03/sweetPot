@@ -58,6 +58,8 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ticket <?php echo htmlspecialchars($numero_ticket); ?> - SweetPot</title>
+    <!-- Theme overrides for print and display -->
+    <link rel="stylesheet" href="../assets/css/sweetpot-theme.css">
     <style>
         /* Estilos minimalistas para impresión */
         * {
@@ -166,7 +168,7 @@ try {
         }
 
         .btn {
-            background: #8b4513;
+            background: var(--sp-brown, #b86b46);
             color: white;
             border: none;
             padding: 8px 16px;
@@ -179,17 +181,17 @@ try {
         }
 
         .btn:hover {
-            background: #654321;
+            background: var(--sp-dark-brown, #9a5036);
         }
 
         .btn-outline {
             background: white;
-            color: #8b4513;
-            border: 1px solid #8b4513;
+            color: var(--sp-brown, #b86b46);
+            border: 1px solid var(--sp-brown, #b86b46);
         }
 
         .btn-outline:hover {
-            background: #8b4513;
+            background: var(--sp-brown, #b86b46);
             color: white;
         }
     </style>

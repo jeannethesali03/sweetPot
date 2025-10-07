@@ -1,0 +1,337 @@
+/*
+  SweetPot - Theme Override (Softer Pink)
+  This file provides a less-saturated, more readable pink palette and
+  overrides a few key classes to reduce visual glare while keeping brand tones.
+  Loaded after the main stylesheet so it overrides bright definitions.
+*/
+
+:root {
+    --sp-pink: #d36b7f;
+    --sp-medium-pink: #f8879d;
+    /* softer, muted pink */
+    --sp-light-pink: #f6d7dc;
+    /* pale background pink */
+    --sp-cream: #ffe7e6;
+    /* very light cream */
+    --sp-brown: #b86b46;
+    /* warm muted brown */
+    --sp-dark-brown: #9a5036;
+    /* darker accent */
+    --sp-muted-gray: #6b6b6b;
+    /* for text and subtle borders */
+    --sp-active: #c0596e;
+    /* active item color (muted raspberry) */
+}
+
+/* Gradiente principal más suave */
+.bg-sweetpot-gradient {
+    background: linear-gradient(135deg, var(--sp-active) 0%, var(--sp-medium-pink) 50%, var(--sp-active) 100%) !important;
+    border: 6px solid pink;
+}
+
+.bg-sweetpot-gradient-dark {
+    background: linear-gradient(135deg, var(--sp-active) 0%, var(--sp-medium-pink) 50%, var(--sp-active) 100%) !important;
+    border: 6px solid pink;
+}
+
+/* Navbar tweaks */
+.navbar-sweetpot {
+    background: linear-gradient(135deg, #e28790 0%, #d1765a 100%) !important;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Sidebar: darker but muted tone to improve contrast */
+.sidebar-sweetpot {
+    background: linear-gradient(180deg, #f7e9e9 0%, #f2dcdc 50%, #efd2d6 100%) !important;
+    color: var(--sp-dark-brown) !important;
+}
+
+.sidebar-sweetpot .nav-link {
+    color: var(--sp-dark-brown) !important;
+    background: transparent !important;
+}
+
+.sidebar-sweetpot .nav-link:hover {
+    background: rgba(210, 107, 127, 0.06) !important;
+    /* even subtler on hover */
+    color: #fff !important;
+    transform: translateX(3px) !important;
+}
+
+.sidebar-sweetpot .nav-link.active {
+    background: linear-gradient(90deg, rgba(192, 90, 110, 0.08), rgba(192, 90, 110, 0.04)) !important;
+    color: var(--sp-dark-brown) !important;
+    transform: translateX(3px) !important;
+    border-left: 4px solid var(--sp-dark-brown) !important;
+    box-shadow: 0 4px 12px rgba(160, 70, 90, 0.04) inset !important;
+}
+
+/* Ensure icons inherit the active text color */
+.sidebar-sweetpot .nav-link.active i,
+.sidebar-sweetpot .nav-link.active .fas,
+.sidebar-sweetpot .nav-link.active .far,
+.sidebar-sweetpot .nav-link.active .fal,
+.sidebar-sweetpot .nav-link.active .fab {
+    color: var(--sp-dark-brown) !important;
+}
+
+/* Buttons: softer gradients, gentle shadow */
+.btn-sweetpot-primary {
+    background: linear-gradient(135deg, #e37f90, #c97b55) !important;
+    box-shadow: 0 6px 18px rgba(200, 120, 140, 0.12) !important;
+}
+
+.btn-sweetpot-secondary {
+    background-color: var(--sp-light-pink) !important;
+    border-color: rgba(210, 107, 127, 0.35) !important;
+    color: var(--sp-dark-brown) !important;
+}
+
+/* Badges and status colors */
+.badge-sweetpot-pink {
+    background-color: var(--sp-pink) !important;
+    color: white !important;
+}
+
+.badge-sweetpot-brown {
+    background-color: var(--sp-brown) !important;
+    color: white !important;
+}
+
+.badge-estado-enviado {
+    background-color: #d36b7f !important;
+    color: white !important;
+}
+
+.badge-estado-entregado {
+    background-color: #6aa86a !important;
+    color: white !important;
+}
+
+/* Reduce glare on alerts and table headers */
+.alert-sweetpot {
+    background-color: rgba(211, 107, 127, 0.06) !important;
+    border-left-color: var(--sp-pink) !important;
+}
+
+.table-sweetpot thead {
+    background: linear-gradient(135deg, #e89aa6, #c97b55) !important;
+}
+
+/* Text utility */
+.text-sweetpot-pink {
+    color: var(--sp-pink) !important;
+}
+
+/* Product price color */
+.producto-precio {
+    color: var(--sp-pink) !important;
+}
+
+/* Reduce saturation on shadows used globally */
+.card-sweetpot {
+    box-shadow: 0 8px 25px rgba(150, 80, 100, 0.08) !important;
+}
+
+/* Add a light border for better separation in lists */
+.sidebar-sweetpot .nav-link {
+    border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+/* Minor accessibility: increase contrast for small text in sidebar */
+.sidebar-sweetpot small,
+.sidebar-sweetpot .small {
+    color: rgba(0, 0, 0, 0.65) !important;
+}
+
+/* -------------------------------------------------------------------------
+   Bootstrap color mapping overrides
+   Reduce the default bright blues/aquas/greens and map Bootstrap utility
+   classes to the softer SweetPot palette so badges, buttons and alerts
+   throughout the site match the theme.
+   These use !important to ensure they override library defaults loaded earlier.
+   ------------------------------------------------------------------------- */
+
+/* Primary (replace Bootstrap blue) */
+.bg-primary,
+.text-primary,
+.badge-primary,
+.btn-primary,
+.alert-primary {
+    background-color: var(--sp-pink) !important;
+    color: white !important;
+    border-color: var(--sp-pink) !important;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--sp-pink), var(--sp-brown)) !important;
+    box-shadow: 0 6px 18px rgba(200, 120, 140, 0.10) !important;
+    border-color: var(--sp-pink) !important;
+}
+
+.btn-outline-primary {
+    color: var(--sp-pink) !important;
+    border-color: rgba(211, 107, 127, 0.28) !important;
+    background-color: transparent !important;
+}
+
+/* Info (replace bright aqua/cyan) */
+.bg-info,
+.text-info,
+.badge-info,
+.alert-info {
+    background-color: var(--sp-light-pink) !important;
+    color: var(--sp-dark-brown) !important;
+    border-color: rgba(210, 107, 127, 0.08) !important;
+}
+
+.btn-outline-info {
+    color: var(--sp-dark-brown) !important;
+    border-color: rgba(210, 107, 127, 0.12) !important;
+}
+
+/* Success (replace bright green) */
+.bg-success,
+.text-success,
+.badge-success,
+.alert-success,
+.progress-bar.bg-success {
+    background-color: #6aa86a !important;
+    /* softer green used for entregado badge */
+    color: white !important;
+    border-color: #6aa86a !important;
+}
+
+bg-sweetpot-gradient
+
+/* Success (replace bright green) */
+.text-success-stock {
+    background-color: #6aa86a !important;
+    /* softer green used for entregado badge */
+    color: white !important;
+    border-color: #6aa86a !important;
+    border-radius: 5px;
+    padding: 0.5em;
+}
+
+.text-danger-stock {
+    background-color: #ff7070 !important;
+    /* softer green used for entregado badge */
+    color: white !important;
+    border-color: #6aa86a !important;
+    border-radius: 5px;
+    padding: 0.5em;
+    padding-left: 0.8em;
+    padding-right: 0.8em;
+}
+
+/* Warning */
+.bg-warning,
+.text-warning,
+.badge-warning,
+.alert-warning {
+    background-color: var(--sp-medium-pink) !important;
+    color: white !important;
+    border-color: var(--sp-brown) !important;
+}
+
+/* Danger / Error */
+.bg-danger,
+.text-danger,
+.badge-danger,
+.alert-danger {
+    background-color: var(--sp-active) !important;
+    /* muted raspberry for errors */
+    color: white !important;
+    border-color: var(--sp-active) !important;
+}
+
+/* Table header tweak when bootstrap classes used */
+.table thead th.bg-primary,
+.table-sweetpot thead th.bg-primary {
+    background: linear-gradient(135deg, var(--sp-pink), var(--sp-brown)) !important;
+    color: white !important;
+}
+
+/* Ensure badges with utility classes blend with theme */
+.badge {
+    box-shadow: none !important;
+}
+
+.badge-pill {
+    border-radius: 999px !important;
+}
+
+/* Small helpers to make outlines and borders match theme */
+.border-primary {
+    border-color: var(--sp-pink) !important;
+}
+
+.text-muted {
+    color: var(--sp-muted-gray) !important;
+}
+
+/* End Bootstrap mapping overrides */
+
+/* End of theme overrides */
+
+/* -------------------------------------------------------------------------
+   Product card sizing utilities
+   Ensure product images and cards render at a uniform size regardless of
+   source image dimensions. Uses object-fit to crop images and flex layout
+   to keep card bodies aligned.
+   ------------------------------------------------------------------------- */
+
+.producto-card,
+.producto-card .card-sweetpot,
+.producto-card.card {
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+    /* ensure full-height cards inside grid columns */
+}
+
+.producto-card .card-body {
+    flex: 1 1 auto !important;
+    /* allow body to grow and keep footer aligned */
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+/* Image container / image itself */
+.producto-card .producto-imagen,
+.producto-card img.producto-imagen,
+.producto-card .card-img-top {
+    width: 100% !important;
+    height: 220px !important;
+    /* desktop default height; tweak as needed */
+    object-fit: cover !important;
+    /* crop uniformly */
+    object-position: center center !important;
+    display: block !important;
+}
+
+/* Ensure any footer or action area stays at bottom */
+.producto-card .card-footer,
+.producto-card .card-actions {
+    margin-top: auto !important;
+}
+
+/* Responsive: slightly shorter images on narrow screens */
+@media (max-width: 768px) {
+
+    .producto-card .producto-imagen,
+    .producto-card img.producto-imagen,
+    .producto-card .card-img-top {
+        height: 160px !important;
+    }
+}
+
+/* Utility: allow explicit override per page if needed */
+.producto-imagen--large {
+    height: 300px !important;
+}
+
+.producto-imagen--small {
+    height: 120px !important;
+}

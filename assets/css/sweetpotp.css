@@ -1,10 +1,20 @@
-@import url('sweetpotp.css');
-
-/* Overrides and small tweaks on top of sweetpotp.css
-   Keep overrides here so changes take effect without editing the main file. */
+/**
+ * Estilos principales de SweetPot - Repostería Artesanal
+ */
 
 :root {
-    /* If you want to override variables, do it here. Otherwise variables are inherited from sweetpotp.css */
+    --sweetpot-pink: #ff6b9d;
+    --sweetpot-cream: #ffa7a7;
+    --sweetpot-brown: #FF8C55;
+    --sweetpot-light-pink: #ffcee2;
+    --sweetpot-dark-brown: #FF8C55;
+    --sweetpot-white: #ffffff;
+    --sweetpot-light-gray: #f8f9fa;
+    --sweetpot-gray: #6c757d;
+    --sweetpot-success: #28a745;
+    --sweetpot-warning: #ffc107;
+    --sweetpot-danger: #dc3545;
+    --sweetpot-info: #17a2b8;
 }
 
 /* Fuentes */
@@ -16,8 +26,7 @@ body {
 
 /* Gradientes principales */
 .bg-sweetpot-gradient {
-    /* Custom override: user wanted a stronger pink stop */
-    background: linear-gradient(135deg, var(--sweetpot-cream) 0%, #FF6C98 100%);
+    background: linear-gradient(135deg, var(--sweetpot-cream) 0%, var(--sweetpot-light-pink) 100%);
 }
 
 .bg-sweetpot-gradient-dark {

@@ -15,18 +15,16 @@ if (!$id_pedido) {
     exit('<div class="alert alert-danger">ID de pedido inválido</div>');
 }
 
-$pedido = new Pedido();
-$pedido->id_pedido = $id_pedido;
-$pedido_data = $pedido->leerUno();
+$pedidoModel = new Pedido();
+$pedido_data = $pedidoModel->obtenerPorId($id_pedido);
 
 // Verificar que el pedido pertenece al usuario (si es cliente)
-if (!$pedido_data || ($user['rol'] === 'cliente' && $pedido_data['id_usuario'] != $user['id'])) {
+if (!$pedido_data || ($user['rol'] === 'cliente' && $pedido_data['cliente_id'] != $user['id'])) {
     exit('<div class="alert alert-danger">Pedido no encontrado</div>');
 }
 
-// Obtener detalle del pedido
-$stmt_detalle = $pedido->obtenerDetalle($id_pedido);
-$items = $stmt_detalle->fetchAll(PDO::FETCH_ASSOC);
+// Obtener detalle del pedido (ya incluido por obtenerPorId)
+$items = $pedido_data['productos'] ?? [];
 ?>
 
 <div class="container-fluid">
@@ -36,17 +34,17 @@ $items = $stmt_detalle->fetchAll(PDO::FETCH_ASSOC);
             <div class="bg-primary text-white p-4 rounded">
                 <div class="row align-items-center">
                     <div class="col-md-8">
-                        <h4 class="mb-1">Pedido #<?php echo str_pad($pedido_data['id_pedido'], 6, '0', STR_PAD_LEFT); ?>
+                        <h4 class="mb-1">Pedido #<?php echo str_pad($pedido_data['id'], 6, '0', STR_PAD_LEFT); ?>
                         </h4>
                         <p class="mb-0">
                             <i class="fas fa-calendar me-1"></i>
                             Realizado el
-                            <?php echo date('d/m/Y \a \las H:i', strtotime($pedido_data['fecha_pedido'])); ?>
+                            <?php echo date('d/m/Y \a \las H:i', strtotime($pedido_data['fecha'])); ?>
                         </p>
                     </div>
                     <div class="col-md-4 text-md-end">
                         <span class="badge bg-light text-dark fs-6 px-3 py-2">
-                            <?php echo ucfirst($pedido_data['estado']); ?>
+                            <?php echo ucfirst(str_replace('_', ' ', $pedido_data['estado'])); ?>
                         </span>
                         <div class="mt-2">
                             <strong
@@ -66,19 +64,26 @@ $items = $stmt_detalle->fetchAll(PDO::FETCH_ASSOC);
                     <h6 class="mb-0"><i class="fas fa-user me-2"></i>Información del Cliente</h6>
                 </div>
                 <div class="card-body">
-                    <p class="mb-2"><strong>Nombre:</strong> <?php echo htmlspecialchars($pedido_data['nombre']); ?></p>
-                    <p class="mb-2"><strong>Email:</strong> <?php echo htmlspecialchars($pedido_data['email']); ?></p>
+                    <p class="mb-2"><strong>Nombre:</strong>
+                        <?php echo htmlspecialchars($pedido_data['cliente_nombre'] ?? $pedido_data['nombre'] ?? ''); ?>
+                    </p>
+                    <p class="mb-2"><strong>Email:</strong>
+                        <?php echo htmlspecialchars($pedido_data['cliente_email'] ?? $pedido_data['email'] ?? ''); ?>
+                    </p>
                     <p class="mb-3"><strong>Teléfono:</strong>
-                        <?php echo htmlspecialchars($pedido_data['telefono_contacto']); ?>
+                        <?php echo htmlspecialchars($pedido_data['cliente_telefono'] ?? $pedido_data['telefono_contacto'] ?? ''); ?>
                     </p>
 
                     <h6><i class="fas fa-map-marker-alt me-2"></i>Dirección de Envío</h6>
-                    <p class="mb-0"><?php echo nl2br(htmlspecialchars($pedido_data['direccion_envio'])); ?></p>
+                    <p class="mb-0">
+                        <?php echo nl2br(htmlspecialchars($pedido_data['direccion_entrega'] ?? $pedido_data['cliente_direccion'] ?? '')); ?>
+                    </p>
 
-                    <?php if ($pedido_data['notas']): ?>
+                    <?php if (!empty($pedido_data['comentarios']) || !empty($pedido_data['notas'])): ?>
                         <hr>
                         <h6><i class="fas fa-comment me-2"></i>Notas del Pedido</h6>
-                        <p class="mb-0 text-muted"><?php echo nl2br(htmlspecialchars($pedido_data['notas'])); ?></p>
+                        <p class="mb-0 text-muted">
+                            <?php echo nl2br(htmlspecialchars($pedido_data['comentarios'] ?? $pedido_data['notas'])); ?></p>
                     <?php endif; ?>
                 </div>
             </div>
@@ -151,16 +156,17 @@ $items = $stmt_detalle->fetchAll(PDO::FETCH_ASSOC);
                         <?php foreach ($items as $item): ?>
                             <div class="d-flex align-items-center p-3 border-bottom">
                                 <div class="imagen-wrapper">
-                                    <?php if ($item['imagen']): ?>
-                                        <?php if (filter_var($item['imagen'], FILTER_VALIDATE_URL)): ?>
-                                            <img src="<?php echo htmlspecialchars($item['imagen']); ?>"
-                                                alt="<?php echo htmlspecialchars($item['titulo']); ?>" class="rounded"
-                                                style="width: 80px; height: 80px; object-fit: cover;"
+                                    <?php $img = $item['producto_imagen'] ?? $item['imagen'] ?? ''; ?>
+                                    <?php if ($img): ?>
+                                        <?php if (filter_var($img, FILTER_VALIDATE_URL)): ?>
+                                            <img src="<?php echo htmlspecialchars($img); ?>"
+                                                alt="<?php echo htmlspecialchars($item['producto_nombre'] ?? $item['titulo'] ?? ''); ?>"
+                                                class="rounded" style="width: 80px; height: 80px; object-fit: cover;"
                                                 onerror="this.parentElement.innerHTML='<div class=\'bg-light rounded d-flex align-items-center justify-content-center\' style=\'width: 80px; height: 80px;\'><i class=\'fas fa-image fa-2x text-muted\'></i></div>'">
                                         <?php else: ?>
-                                            <img src="../../assets/uploads/obras/<?php echo htmlspecialchars($item['imagen']); ?>"
-                                                alt="<?php echo htmlspecialchars($item['titulo']); ?>" class="rounded"
-                                                style="width: 80px; height: 80px; object-fit: cover;"
+                                            <img src="../../assets/uploads/obras/<?php echo htmlspecialchars($img); ?>"
+                                                alt="<?php echo htmlspecialchars($item['producto_nombre'] ?? $item['titulo'] ?? ''); ?>"
+                                                class="rounded" style="width: 80px; height: 80px; object-fit: cover;"
                                                 onerror="this.parentElement.innerHTML='<div class=\'bg-light rounded d-flex align-items-center justify-content-center\' style=\'width: 80px; height: 80px;\'><i class=\'fas fa-image fa-2x text-muted\'></i></div>'">
                                         <?php endif; ?>
                                     <?php else: ?>
@@ -172,10 +178,12 @@ $items = $stmt_detalle->fetchAll(PDO::FETCH_ASSOC);
                                 </div>
 
                                 <div class="flex-grow-1 ms-3">
-                                    <h6 class="mb-1"><?php echo htmlspecialchars($item['titulo']); ?></h6>
+                                    <h6 class="mb-1">
+                                        <?php echo htmlspecialchars($item['producto_nombre'] ?? $item['titulo'] ?? 'Producto'); ?>
+                                    </h6>
                                     <p class="text-muted mb-1">
-                                        Por:
-                                        <?php echo htmlspecialchars($item['nombre_artista'] . ' ' . $item['apellidos_artista']); ?>
+                                        <small
+                                            class="text-muted"><?php echo htmlspecialchars($item['categoria_nombre'] ?? ''); ?></small>
                                     </p>
                                     <div class="row">
                                         <div class="col-sm-4">

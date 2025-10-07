@@ -34,11 +34,24 @@ try {
     // Estadísticas de pedidos
     $estadisticasPedidos = $pedidoModel->obtenerEstadisticas();
 
+    // Debug: Solo para desarrollo - remover en producción
+    if (!$estadisticasPedidos) {
+        error_log("Error: No se pudieron obtener estadísticas de pedidos");
+        $estadisticasPedidos = [
+            'total' => 0,
+            'pendiente' => 0,
+            'en_proceso' => 0,
+            'enviado' => 0,
+            'entregado' => 0,
+            'cancelado' => 0
+        ];
+    }
+
     // Productos con stock bajo (menos de 10)
     $productosStockBajo = $productoModel->obtenerConStockBajo(10);
 
     // Últimos pedidos
-    $ultimosPedidos = ['data' => []]; // Temporal hasta implementar correctamente
+    $ultimosPedidos = $pedidoModel->obtenerUltimosPedidos(5);
 
     // Productos más vendidos
     $productosMasVendidos = $productoModel->obtenerMasVendidos(5);

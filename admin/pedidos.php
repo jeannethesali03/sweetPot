@@ -277,7 +277,7 @@ include '../includes/header.php';
                                             <td>
                                                 <?php echo date('d/m/Y H:i', strtotime($pedido['fecha'])); ?>
                                             </td>
-                                            <td class="text-success fw-bold">
+                                            <td class=" fw-bold">
                                                 $<?php echo number_format($pedido['total'], 2); ?>
                                             </td>
                                             <td>

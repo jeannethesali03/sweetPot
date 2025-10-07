@@ -20,7 +20,8 @@
     <script src="../assets/js/cliente-sweetalert.js"></script>
 
     <!-- SweetPot Custom CSS -->
-    <link rel="stylesheet" href="<?php echo BASE_URL ?? ''; ?>/assets/css/sweetpot.css">
+    <!-- Theme override (softer pinks) - loads after main CSS -->
+    <link rel="stylesheet" href="../assets/css/sweetpot-theme.css?v=20251006">
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="<?php echo BASE_URL ?? ''; ?>/assets/images/favicon.ico">

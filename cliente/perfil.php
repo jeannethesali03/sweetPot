@@ -146,25 +146,12 @@ if (isset($_POST['cambiar_password'])) {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <!-- SweetAlert2 -->
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+    <!-- SweetPot theme overrides -->
+    <link rel="stylesheet" href="../assets/css/sweetpot-theme.css">
 
     <style>
-        :root {
-            --sweetpot-pink: #ff6b9d;
-            --sweetpot-cream: #ffeaa7;
-            --sweetpot-brown: #f7e3ffff;
-            --sweetpot-light-pink: #ffb3d1;
-            --sweetpot-dark-brown: #f7e3ffff;
-            --sweetpot-white: #ffffff;
-            --sweetpot-light-gray: #f8f9fa;
-            --sweetpot-gray: #6c757d;
-            --sweetpot-success: #28a745;
-            --sweetpot-warning: #ffc107;
-            --sweetpot-danger: #dc3545;
-            --sweetpot-info: #17a2b8;
-        }
-
         .navbar-sweetpot {
-            background: linear-gradient(135deg, var(--sweetpot-pink), var(--sweetpot-brown));
+            background: linear-gradient(135deg, var(--sp-pink), var(--sp-brown));
             box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
             padding: 0.8rem 0;
         }
@@ -200,7 +187,7 @@ if (isset($_POST['cambiar_password'])) {
         }
 
         .profile-header {
-            background: linear-gradient(135deg, var(--sweetpot-pink), var(--sweetpot-brown));
+            background: linear-gradient(135deg, var(--sp-pink), var(--sp-brown));
             color: white;
             padding: 3rem 0;
             margin-bottom: 2rem;
@@ -210,13 +197,13 @@ if (isset($_POST['cambiar_password'])) {
         .profile-avatar {
             width: 120px;
             height: 120px;
-            background: linear-gradient(135deg, var(--sweetpot-cream), var(--sweetpot-light-pink));
+            background: linear-gradient(135deg, var(--sp-cream), var(--sp-light-pink));
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 3rem;
-            color: var(--sweetpot-pink);
+            color: var(--sp-pink);
             margin: 0 auto 1.5rem;
             border: 4px solid rgba(255, 255, 255, 0.3);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
@@ -236,7 +223,7 @@ if (isset($_POST['cambiar_password'])) {
         }
 
         .card-header {
-            background: linear-gradient(135deg, var(--sweetpot-pink), var(--sweetpot-brown));
+            background: linear-gradient(135deg, var(--sp-pink), var(--sp-brown));
             color: white;
             border-radius: 20px 20px 0 0 !important;
             border: none;
@@ -245,7 +232,7 @@ if (isset($_POST['cambiar_password'])) {
         }
 
         .btn-sweetpot {
-            background: linear-gradient(135deg, var(--sweetpot-pink), var(--sweetpot-brown));
+            background: linear-gradient(135deg, var(--sp-pink), var(--sp-brown));
             border: none;
             color: white;
             border-radius: 25px;
@@ -258,37 +245,37 @@ if (isset($_POST['cambiar_password'])) {
 
         .btn-sweetpot:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(255, 107, 157, 0.3);
-            background: linear-gradient(135deg, var(--sweetpot-brown), var(--sweetpot-pink));
+            box-shadow: 0 8px 25px rgba(200, 120, 140, 0.18);
+            background: linear-gradient(135deg, var(--sp-brown), var(--sp-pink));
             color: white;
         }
 
         .btn-sweetpot-outline {
             background: transparent;
-            border: 2px solid var(--sweetpot-pink);
-            color: var(--sweetpot-pink);
+            border: 2px solid var(--sp-pink);
+            color: var(--sp-pink);
         }
 
         .btn-sweetpot-outline:hover {
-            background: var(--sweetpot-pink);
+            background: var(--sp-pink);
             color: white;
         }
 
         .form-control:focus {
-            border-color: var(--sweetpot-pink);
-            box-shadow: 0 0 0 0.25rem rgba(255, 107, 157, 0.25);
+            border-color: var(--sp-pink);
+            box-shadow: 0 0 0 0.25rem rgba(211, 107, 127, 0.18);
         }
 
         .form-select:focus {
-            border-color: var(--sweetpot-pink);
-            box-shadow: 0 0 0 0.25rem rgba(255, 107, 157, 0.25);
+            border-color: var(--sp-pink);
+            box-shadow: 0 0 0 0.25rem rgba(211, 107, 127, 0.18);
         }
 
         .carrito-badge {
             position: absolute;
             top: -8px;
             right: -8px;
-            background: var(--sweetpot-danger);
+            background: var(--sp-active);
             color: white;
             border-radius: 50%;
             width: 20px;
@@ -302,7 +289,7 @@ if (isset($_POST['cambiar_password'])) {
 
         /* Estilos específicos para el perfil */
         .profile-stats {
-            background: linear-gradient(135deg, var(--sweetpot-cream), var(--sweetpot-light-pink));
+            background: linear-gradient(135deg, var(--sp-cream), var(--sp-light-pink));
             border-radius: 15px;
             padding: 1.5rem;
             text-align: center;
@@ -312,12 +299,12 @@ if (isset($_POST['cambiar_password'])) {
         .stat-number {
             font-size: 2rem;
             font-weight: bold;
-            color: var(--sweetpot-pink);
+            color: var(--sp-pink);
             margin-bottom: 0.5rem;
         }
 
         .stat-label {
-            color: var(--sweetpot-brown);
+            color: var(--sp-brown);
             font-size: 0.9rem;
             font-weight: 500;
         }
@@ -327,11 +314,11 @@ if (isset($_POST['cambiar_password'])) {
         }
 
         .section-title {
-            color: var(--sweetpot-brown);
+            color: var(--sp-brown);
             font-weight: bold;
             margin-bottom: 1rem;
             padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--sweetpot-light-pink);
+            border-bottom: 2px solid var(--sp-light-pink);
         }
 
         .info-item {
@@ -340,18 +327,18 @@ if (isset($_POST['cambiar_password'])) {
             align-items: center;
             padding: 1rem;
             margin-bottom: 0.5rem;
-            background-color: rgba(255, 234, 167, 0.1);
+            background-color: rgba(255, 234, 167, 0.06);
             border-radius: 10px;
-            border-left: 4px solid var(--sweetpot-pink);
+            border-left: 4px solid var(--sp-pink);
         }
 
         .info-label {
             font-weight: 600;
-            color: var(--sweetpot-brown);
+            color: var(--sp-brown);
         }
 
         .info-value {
-            color: var(--sweetpot-gray);
+            color: var(--sp-muted-gray);
         }
 
         /* Avatar upload */
@@ -364,7 +351,7 @@ if (isset($_POST['cambiar_password'])) {
             position: absolute;
             bottom: 10px;
             right: 10px;
-            background: var(--sweetpot-pink);
+            background: var(--sp-pink);
             color: white;
             border-radius: 50%;
             width: 35px;
@@ -377,7 +364,7 @@ if (isset($_POST['cambiar_password'])) {
         }
 
         .avatar-upload-btn:hover {
-            background: var(--sweetpot-brown);
+            background: var(--sp-brown);
             transform: scale(1.1);
         }
 
@@ -438,7 +425,7 @@ if (isset($_POST['cambiar_password'])) {
 
         /* Badges personalizados */
         .badge-sweetpot {
-            background: linear-gradient(135deg, var(--sweetpot-pink), var(--sweetpot-brown));
+            background: linear-gradient(135deg, var(--sp-pink), var(--sp-brown));
             color: white;
             border-radius: 15px;
             padding: 0.4rem 0.8rem;
@@ -536,7 +523,7 @@ if (isset($_POST['cambiar_password'])) {
                             </div>
 
                             <div class="text-end">
-                                <button type="submit" class="btn btn-sweetpot">
+                                <button type="submit" class="btn btn-sweetpot text-white">
                                     <i class="fas fa-save me-2"></i>
                                     Guardar Cambios
                                 </button>
@@ -594,11 +581,15 @@ if (isset($_POST['cambiar_password'])) {
                         <div class="text-center">
                             <div class="row mb-3">
                                 <div class="col-6">
-                                    <h3 class="text-primary mb-0"><?php echo $total_pedidos; ?></h3>
+                                    <h3 class="text-primary p-3 mb-0" style="border-radius: 5px;">
+                                        <?php echo $total_pedidos; ?>
+                                    </h3>
                                     <small class="text-muted">Pedidos Realizados</small>
                                 </div>
                                 <div class="col-6">
-                                    <h3 class="text-success mb-0">$<?php echo number_format($total_gastado, 2); ?></h3>
+                                    <h3 class="text-success p-3 mb-0" style="border-radius: 5px;">
+                                        $<?php echo number_format($total_gastado, 2); ?>
+                                    </h3>
                                     <small class="text-muted">Total Gastado</small>
                                 </div>
                             </div>

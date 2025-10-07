@@ -136,7 +136,7 @@ try {
     <!-- Animate.css -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     <!-- SweetPot CSS -->
-    <link href="../assets/css/sweetpot.css" rel="stylesheet">
+    <link href="../assets/css/sweetpot-theme.css" rel="stylesheet">
 
     <style>
         .stats-card {
@@ -198,56 +198,62 @@ try {
                 <!-- Estadísticas rápidas -->
                 <div class="row mb-4">
                     <div class="col-md-2">
-                        <div class="card stats-card text-center">
+                        <div class="card bg-sweetpot-gradient text-center">
                             <div class="card-body">
-                                <i class="fas fa-clipboard-list fa-2x text-primary mb-2"></i>
-                                <h4><?php echo $stats['total_pedidos'] ?? 0; ?></h4>
-                                <p class="text-muted mb-0 small">Total Pedidos</p>
+                                <i class="fas fa-clipboard-list fa-2x mb-2" style="color: white"></i>
+                                <h4 style="color: white; font-weight: bold;"><?php echo $stats['total_pedidos'] ?? 0; ?>
+                                </h4>
+                                <p class="mb-0 small" style="color: white; font-weight: bold;">Total Pedidos</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <div class="card stats-card text-center">
+                        <div class="card bg-sweetpot-gradient text-center">
                             <div class="card-body">
                                 <i class="fas fa-clock fa-2x text-warning mb-2"></i>
-                                <h4><?php echo $stats['pendientes'] ?? 0; ?></h4>
-                                <p class="text-muted mb-0 small">Pendientes</p>
+                                <h4 style="color: white; font-weight: bold;"><?php echo $stats['pendientes'] ?? 0; ?>
+                                </h4>
+                                <p class="mb-0 small" style="color: white; font-weight: bold;">Pendientes</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <div class="card stats-card text-center">
+                        <div class="card bg-sweetpot-gradient text-center">
                             <div class="card-body">
-                                <i class="fas fa-cogs fa-2x text-info mb-2"></i>
-                                <h4><?php echo $stats['en_proceso'] ?? 0; ?></h4>
-                                <p class="text-muted mb-0 small">En Proceso</p>
+                                <i class="fas fa-cogs fa-2x mb-2" style="color: white; font-weight: bold;"></i>
+                                <h4 style="color: white; font-weight: bold;"><?php echo $stats['en_proceso'] ?? 0; ?>
+                                </h4>
+                                <p class="mb-0 small" style="color: white; font-weight: bold;">En Proceso</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <div class="card stats-card text-center">
+                        <div class="card bg-sweetpot-gradient text-center">
                             <div class="card-body">
-                                <i class="fas fa-shipping-fast fa-2x text-secondary mb-2"></i>
-                                <h4><?php echo $stats['enviados'] ?? 0; ?></h4>
-                                <p class="text-muted mb-0 small">Enviados</p>
+                                <i class="fas fa-shipping-fast fa-2x mb-2" style="color: white; font-weight: bold;"></i>
+                                <h4 style="color: white; font-weight: bold;"><?php echo $stats['enviados'] ?? 0; ?>
+                                </h4>
+                                <p class="mb-0 small" style="color: white; font-weight: bold;">Enviados</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <div class="card stats-card text-center">
+                        <div class="card bg-sweetpot-gradient text-center">
                             <div class="card-body">
-                                <i class="fas fa-check-circle fa-2x text-success mb-2"></i>
-                                <h4><?php echo $stats['entregados'] ?? 0; ?></h4>
-                                <p class="text-muted mb-0 small">Entregados</p>
+                                <i class="fas fa-check-circle fa-2x mb-2" style="color: white; font-weight: bold;"></i>
+                                <h4 style="color: white; font-weight: bold;"><?php echo $stats['entregados'] ?? 0; ?>
+                                </h4>
+                                <p class="mb-0 small" style="color: white; font-weight: bold;">Entregados</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <div class="card stats-card text-center">
+                        <div class="card bg-sweetpot-gradient text-center">
                             <div class="card-body">
-                                <i class="fas fa-times-circle fa-2x text-danger mb-2"></i>
-                                <h4><?php echo $stats['cancelados'] ?? 0; ?></h4>
-                                <p class="text-muted mb-0 small">Cancelados</p>
+                                <i class="fas fa-times-circle fa-2x mb-2" style="color: white; font-weight: bold;"></i>
+                                <h4 style="color: white; font-weight: bold;"><?php echo $stats['cancelados'] ?? 0; ?>
+                                </h4>
+                                <p class="mb-0 small" style="color: white; font-weight: bold;">Cancelados</p>
                             </div>
                         </div>
                     </div>
@@ -348,7 +354,7 @@ try {
                                                             class="text-muted"><?php echo $pedido['fecha'] ? date('H:i', strtotime($pedido['fecha'])) : ''; ?></small>
                                                     </div>
                                                 </td>
-                                                <td class="fw-bold text-success">
+                                                <td class="fw-bold">
                                                     $<?php echo number_format($pedido['total'], 2); ?>
                                                 </td>
                                                 <td>

@@ -160,7 +160,7 @@ try {
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- SweetPot CSS -->
-    <link href="../assets/css/sweetpot.css" rel="stylesheet">
+    <link href="../assets/css/sweetpot-theme.css" rel="stylesheet">
 
     <style>
         .stats-card {
@@ -368,7 +368,7 @@ try {
                                                             <td><span
                                                                     class="badge bg-primary"><?php echo $fila['pedidos']; ?></span>
                                                             </td>
-                                                            <td class="text-success fw-bold">
+                                                            <td class=" fw-bold">
                                                                 $<?php echo number_format($fila['ventas'] ?? 0, 2); ?></td>
                                                         <?php elseif ($tipo_reporte === 'productos'): ?>
                                                             <td><?php echo $index + 1; ?></td>

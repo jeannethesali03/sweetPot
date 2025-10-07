@@ -62,6 +62,8 @@ try {
     <title>Ticket #<?php echo htmlspecialchars($numero_ticket); ?> - SweetPot</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <!-- SweetPot theme overrides -->
+    <link rel="stylesheet" href="../assets/css/sweetpot-theme.css">
     <style>
         .ticket-container {
             max-width: 800px;
@@ -73,7 +75,7 @@ try {
         }
 
         .ticket-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--sp-pink, #d36b7f) 0%, var(--sp-brown, #b86b46) 100%);
             color: white;
             padding: 2rem;
             text-align: center;
@@ -123,7 +125,7 @@ try {
             border-radius: 10px;
             padding: 1rem;
             margin-bottom: 1rem;
-            border-left: 4px solid #667eea;
+            border-left: 4px solid var(--sp-pink, #d36b7f);
         }
 
         .product-image {
@@ -156,7 +158,7 @@ try {
         }
 
         .total-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--sp-pink, #d36b7f) 0%, var(--sp-brown, #b86b46) 100%);
             color: white;
             border-radius: 15px;
             padding: 2rem;

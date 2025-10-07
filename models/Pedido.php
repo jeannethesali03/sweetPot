@@ -430,14 +430,14 @@ class Pedido
     {
         try {
             $query = "SELECT 
-                        COUNT(*) as total_pedidos,
+                        COUNT(*) as total,
                         SUM(total) as ventas_totales,
                         AVG(total) as venta_promedio,
-                        SUM(CASE WHEN estado = 'pendiente' THEN 1 ELSE 0 END) as pendientes,
+                        SUM(CASE WHEN estado = 'pendiente' THEN 1 ELSE 0 END) as pendiente,
                         SUM(CASE WHEN estado = 'en_proceso' THEN 1 ELSE 0 END) as en_proceso,
-                        SUM(CASE WHEN estado = 'enviado' THEN 1 ELSE 0 END) as enviados,
-                        SUM(CASE WHEN estado = 'entregado' THEN 1 ELSE 0 END) as entregados,
-                        SUM(CASE WHEN estado = 'cancelado' THEN 1 ELSE 0 END) as cancelados
+                        SUM(CASE WHEN estado = 'enviado' THEN 1 ELSE 0 END) as enviado,
+                        SUM(CASE WHEN estado = 'entregado' THEN 1 ELSE 0 END) as entregado,
+                        SUM(CASE WHEN estado = 'cancelado' THEN 1 ELSE 0 END) as cancelado
                       FROM ventas WHERE 1=1";
 
             // Aplicar filtros de fecha si existen
@@ -468,11 +468,31 @@ class Pedido
             }
 
             $stmt->execute();
-            return $stmt->fetch(PDO::FETCH_ASSOC);
+            $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            // Asegurar que todos los valores sean números, no null
+            if ($resultado) {
+                foreach ($resultado as $key => $value) {
+                    if (is_null($value)) {
+                        $resultado[$key] = 0;
+                    }
+                }
+            }
+
+            return $resultado;
 
         } catch (PDOException $e) {
             error_log("Error al obtener estadísticas de pedidos: " . $e->getMessage());
-            return false;
+            return [
+                'total' => 0,
+                'ventas_totales' => 0,
+                'venta_promedio' => 0,
+                'pendiente' => 0,
+                'en_proceso' => 0,
+                'enviado' => 0,
+                'entregado' => 0,
+                'cancelado' => 0
+            ];
         }
     }
 
@@ -503,6 +523,39 @@ class Pedido
         } catch (PDOException $e) {
             error_log("Error al obtener ventas por período: " . $e->getMessage());
             return false;
+        }
+    }
+
+    /**
+     * Obtener últimos pedidos para dashboard
+     */
+    public function obtenerUltimosPedidos($limite = 10)
+    {
+        try {
+            $query = "SELECT v.id, v.numero_pedido, v.fecha as fecha_pedido, v.total, v.estado,
+                     u_cliente.nombre as nombre_cliente, u_cliente.email as email_cliente
+                     FROM ventas v
+                     INNER JOIN usuarios u_cliente ON v.cliente_id = u_cliente.id
+                     ORDER BY v.fecha DESC
+                     LIMIT :limite";
+
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':limite', $limite, PDO::PARAM_INT);
+            $stmt->execute();
+
+            $pedidos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return [
+                'data' => $pedidos,
+                'total' => count($pedidos)
+            ];
+
+        } catch (PDOException $e) {
+            error_log("Error al obtener últimos pedidos: " . $e->getMessage());
+            return [
+                'data' => [],
+                'total' => 0
+            ];
         }
     }
 }

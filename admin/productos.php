@@ -218,13 +218,13 @@ include '../includes/header.php';
                                                 <span
                                                     class="badge bg-info"><?php echo htmlspecialchars($producto['categoria_nombre'] ?? 'Sin categoría'); ?></span>
                                             </td>
-                                            <td class="text-success fw-bold">
+                                            <td class=" fw-bold">
                                                 $<?php echo number_format($producto['precio'], 2); ?></td>
                                             <td>
                                                 <?php
-                                                $stockClass = 'text-success';
+                                                $stockClass = 'text-success-stock';
                                                 if ($producto['stock'] <= 5)
-                                                    $stockClass = 'text-danger';
+                                                    $stockClass = 'text-danger-stock';
                                                 elseif ($producto['stock'] <= 10)
                                                     $stockClass = 'text-warning';
                                                 ?>

@@ -160,7 +160,7 @@ try {
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- SweetPot CSS -->
-    <link href="../assets/css/sweetpot.css" rel="stylesheet">
+    <link href="../assets/css/sweetpot-theme.css" rel="stylesheet">
 
     <style>
         .stats-card {
@@ -256,7 +256,8 @@ try {
                         <div class="col-md-3">
                             <div class="card stats-card text-center">
                                 <div class="card-body">
-                                    <i class="fas fa-shopping-cart fa-2x text-primary mb-2"></i>
+                                    <i class="fas fa-shopping-cart fa-2x text-primary mb-2 p-1 py-2"
+                                        style="border-radius: 5px;"></i>
                                     <h3><?php echo number_format($stats['total_pedidos'] ?? 0); ?></h3>
                                     <p class="text-muted mb-0">Total Pedidos</p>
                                 </div>
@@ -265,7 +266,8 @@ try {
                         <div class="col-md-3">
                             <div class="card stats-card text-center">
                                 <div class="card-body">
-                                    <i class="fas fa-dollar-sign fa-2x text-success mb-2"></i>
+                                    <i class="fas fa-dollar-sign fa-2x p-2 text-success mb-2"
+                                        style="border-radius: 5px;"></i>
                                     <h3>$<?php echo number_format($stats['ventas_totales'] ?? 0, 2); ?></h3>
                                     <p class="text-muted mb-0">Ventas Totales</p>
                                 </div>
@@ -283,7 +285,8 @@ try {
                         <div class="col-md-3">
                             <div class="card stats-card text-center">
                                 <div class="card-body">
-                                    <i class="fas fa-check-circle fa-2x text-success mb-2"></i>
+                                    <i class="fas fa-check-circle fa-2x p-2 text-success mb-2"
+                                        style="border-radius: 5px;"></i>
                                     <h3><?php echo number_format($stats['entregados'] ?? 0); ?></h3>
                                     <p class="text-muted mb-0">Entregados</p>
                                 </div>
@@ -368,7 +371,7 @@ try {
                                                             <td><span
                                                                     class="badge bg-primary"><?php echo $fila['pedidos']; ?></span>
                                                             </td>
-                                                            <td class="text-success fw-bold">
+                                                            <td class="fw-bold">
                                                                 $<?php echo number_format($fila['ventas'] ?? 0, 2); ?></td>
                                                         <?php elseif ($tipo_reporte === 'productos'): ?>
                                                             <td><?php echo $index + 1; ?></td>

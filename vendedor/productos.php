@@ -112,7 +112,7 @@ try {
     <!-- Animate.css -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     <!-- SweetPot CSS -->
-    <link href="../assets/css/sweetpot.css" rel="stylesheet">
+    <link href="../assets/css/sweetpot-theme.css" rel="stylesheet">
     
     <style>
         .product-card {
@@ -158,7 +158,7 @@ try {
         }
         
         .stats-card {
-            background: linear-gradient(135deg, var(--sweetpot-cream), #fff);
+            background: linear-gradient(135deg, var(--sweetpot-cream), var(--sweetpot-medium-pink));
             border-left: 4px solid var(--sweetpot-brown);
         }
     </style>
@@ -187,29 +187,29 @@ try {
                 <?php if (isset($stats)): ?>
                     <div class="row mb-4">
                         <div class="col-md-4">
-                            <div class="card stats-card">
+                            <div class="card bg-sweetpot-gradient">
                                 <div class="card-body text-center">
                                     <i class="fas fa-cubes fa-2x text-primary mb-2"></i>
-                                    <h3><?php echo number_format($stats['total_productos']); ?></h3>
-                                    <p class="text-muted mb-0">Total Productos</p>
+                                    <h3 style="color: black; font-weight: bold;"><?php echo number_format($stats['total_productos']); ?></h3>
+                                    <p class="mb-0" style="color: black; font-weight: bold;">Total Productos</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="card stats-card">
+                            <div class="card bg-sweetpot-gradient">
                                 <div class="card-body text-center">
                                     <i class="fas fa-exclamation-triangle fa-2x text-warning mb-2"></i>
-                                    <h3><?php echo number_format($stats['productos_bajo_stock']); ?></h3>
-                                    <p class="text-muted mb-0">Bajo Stock</p>
+                                    <h3 style="color: black; font-weight: bold;"><?php echo number_format($stats['productos_bajo_stock']); ?></h3>
+                                    <p class="mb-0" style="color: black; font-weight: bold;">Bajo Stock</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="card stats-card">
+                            <div class="card bg-sweetpot-gradient">
                                 <div class="card-body text-center">
                                     <i class="fas fa-dollar-sign fa-2x text-success mb-2"></i>
-                                    <h3>$<?php echo number_format($stats['precio_promedio'], 2); ?></h3>
-                                    <p class="text-muted mb-0">Precio Promedio</p>
+                                    <h3 style="color: black; font-weight: bold;">$<?php echo number_format($stats['precio_promedio'], 2); ?></h3>
+                                    <p class="mb-0" style="color: black; font-weight: bold;">Precio Promedio</p>
                                 </div>
                             </div>
                         </div>

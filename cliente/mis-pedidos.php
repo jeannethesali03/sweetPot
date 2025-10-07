@@ -563,16 +563,19 @@ function getEstadoIcon($estado)
             <div class="row">
                 <?php foreach ($pedidos as $pedido): ?>
                     <?php
-                        // prepare normalized data attributes
-                        $data_numero = htmlspecialchars($pedido['numero_pedido'] ?? '');
-                        $data_ticket = htmlspecialchars($pedido['numero_ticket'] ?? '');
-                        $data_estado = htmlspecialchars($pedido['estado'] ?? '');
-                        $data_fecha = htmlspecialchars(date('Y-m-d', strtotime($pedido['fecha'] ?? '')));
-                        $data_monto = htmlspecialchars(number_format($pedido['total'] ?? 0, 2, '.', ''));
-                        $data_items = htmlspecialchars($pedido['total_items'] ?? 0);
+                    // prepare normalized data attributes
+                    $data_numero = htmlspecialchars($pedido['numero_pedido'] ?? '');
+                    $data_ticket = htmlspecialchars($pedido['numero_ticket'] ?? '');
+                    $data_estado = htmlspecialchars($pedido['estado'] ?? '');
+                    $data_fecha = htmlspecialchars(date('Y-m-d', strtotime($pedido['fecha'] ?? '')));
+                    $data_monto = htmlspecialchars(number_format($pedido['total'] ?? 0, 2, '.', ''));
+                    $data_items = htmlspecialchars($pedido['total_items'] ?? 0);
                     ?>
                     <div class="col-md-6 col-lg-4">
-                        <div class="card pedido-card" data-numero="<?php echo $data_numero; ?>" data-ticket="<?php echo $data_ticket; ?>" data-estado="<?php echo $data_estado; ?>" data-fecha="<?php echo $data_fecha; ?>" data-monto="<?php echo $data_monto; ?>" data-items="<?php echo $data_items; ?>">
+                        <div class="card pedido-card" data-numero="<?php echo $data_numero; ?>"
+                            data-ticket="<?php echo $data_ticket; ?>" data-estado="<?php echo $data_estado; ?>"
+                            data-fecha="<?php echo $data_fecha; ?>" data-monto="<?php echo $data_monto; ?>"
+                            data-items="<?php echo $data_items; ?>">
                             <div class="pedido-header">
                                 <div class="d-flex justify-content-between align-items-start">
                                     <div>

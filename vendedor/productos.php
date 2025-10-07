@@ -330,11 +330,16 @@ try {
                                                 <?php endif; ?>
                                             </div>
                                             
-                                            <button type="button" 
-                                                    class="btn btn-outline-primary btn-sm w-100"
-                                                    onclick="verDetalleProducto(<?php echo $producto['id']; ?>)">
-                                                <i class="fas fa-eye"></i> Ver Detalles
-                                            </button>
+                                            <div class="d-grid gap-2">
+                                                <button type="button" 
+                                                        class="btn btn-outline-primary btn-sm"
+                                                        onclick="verDetalleProducto(<?php echo $producto['id']; ?>)">
+                                                    <i class="fas fa-eye"></i> Ver Detalles
+                                                </button>
+                                                <button type="button" class="btn btn-outline-success btn-sm" onclick="generarQR(<?php echo $producto['id']; ?>, '<?php echo htmlspecialchars($producto['nombre']); ?>')">
+                                                    <i class="fas fa-qrcode"></i> Generar QR
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -507,7 +512,92 @@ try {
                     window.location.href = '../logout.php';
                 }
             });
-        }
+            }
+
+            // Generar QR (para vendedores) - similar a la versión admin
+            function generarQR(id, nombre) {
+                Swal.fire({
+                    title: '¿Generar código QR?',
+                    text: `Se generará un código QR para: ${nombre}`,
+                    html: `
+                        <p>Se generará un código QR para: <strong>${nombre}</strong></p>
+                        <div class="mt-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="formatoQr" id="formatoImagen" value="imagen" checked>
+                                <label class="form-check-label" for="formatoImagen">
+                                    <i class="fas fa-image me-1"></i> Descargar imagen PNG
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="formatoQr" id="formatoPdf" value="pdf">
+                                <label class="form-check-label" for="formatoPdf">
+                                    <i class="fas fa-file-pdf me-1"></i> Descargar PDF con información
+                                </label>
+                            </div>
+                        </div>
+                    `,
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#28a745',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: '<i class="fas fa-qrcode"></i> Generar QR',
+                    cancelButtonText: 'Cancelar',
+                    preConfirm: () => {
+                        const formato = document.querySelector('input[name="formatoQr"]:checked').value;
+                        return formato;
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const formato = result.value;
+                        // Mostrar loading
+                        Swal.fire({
+                            title: 'Generando QR...',
+                            allowOutsideClick: false,
+                            didOpen: () => { Swal.showLoading(); }
+                        });
+
+                        fetch('ajax/generar-qr-producto.php', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ id: id, formato: formato })
+                        })
+                        .then(r => r.json())
+                        .then(data => {
+                            Swal.close();
+                            if (data.success) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: '¡QR generado!',
+                                    html: `
+                                        <div class="mb-3 text-center">
+                                            <img src="${data.qr_url}" alt="QR" style="max-width:200px;border:2px solid #ddd;border-radius:8px;">
+                                        </div>
+                                        <p><small class="text-muted">URL del producto:</small><br><code>${data.producto_url}</code></p>
+                                    `,
+                                    showCancelButton: true,
+                                    confirmButtonText: `<i class="fas fa-download"></i> Descargar`,
+                                    cancelButtonText: 'Cerrar',
+                                }).then((dl) => {
+                                    if (dl.isConfirmed) {
+                                        const link = document.createElement('a');
+                                        link.href = data.download_url || data.qr_url;
+                                        link.download = data.filename || 'qr.png';
+                                        document.body.appendChild(link);
+                                        link.click();
+                                        link.remove();
+                                    }
+                                });
+                            } else {
+                                Swal.fire('Error', data.message || 'No se pudo generar el QR', 'error');
+                            }
+                        })
+                        .catch(err => {
+                            Swal.close();
+                            Swal.fire('Error', 'Error de conexión al generar el QR', 'error');
+                        });
+                    }
+                });
+            }
     </script>
     <?php include '../includes/footer.php'; ?>
 </body>

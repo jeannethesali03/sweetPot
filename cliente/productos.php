@@ -52,8 +52,10 @@ try {
     if (is_array($categorias) && isset($categorias['data'])) {
         $categorias = $categorias['data'];
     }
-    if (!is_array($categorias)) $categorias = [];
-    $categorias = array_values(array_filter($categorias, function ($c) { return is_array($c) && isset($c['id']) && isset($c['nombre']); }));
+    if (!is_array($categorias))
+        $categorias = [];
+    $categorias = array_values(array_filter($categorias, function ($c) {
+        return is_array($c) && isset($c['id']) && isset($c['nombre']); }));
 
     // Obtener información del carrito
     $carritoInfo = $carritoModel->obtenerResumen($_SESSION['user_id']);
@@ -126,7 +128,8 @@ include 'includes/navbar.php';
                             <select class="form-select" id="categoria" name="categoria">
                                 <option value="">Todas las categorías</option>
                                 <?php foreach ($categorias as $cat): ?>
-                                    <?php if (!is_array($cat) || !isset($cat['id'])) continue; ?>
+                                    <?php if (!is_array($cat) || !isset($cat['id']))
+                                        continue; ?>
                                     <option value="<?php echo $cat['id']; ?>" <?php echo ($categoria == $cat['id']) ? 'selected' : ''; ?>>
                                         <?php echo htmlspecialchars($cat['nombre']); ?>
                                     </option>

@@ -34,8 +34,10 @@ try {
     if (is_array($categorias) && isset($categorias['data'])) {
         $categorias = $categorias['data'];
     }
-    if (!is_array($categorias)) $categorias = [];
-    $categorias = array_values(array_filter($categorias, function ($c) { return is_array($c) && isset($c['id']) && isset($c['nombre']); }));
+    if (!is_array($categorias))
+        $categorias = [];
+    $categorias = array_values(array_filter($categorias, function ($c) {
+        return is_array($c) && isset($c['id']) && isset($c['nombre']); }));
 
     // Obtener información del carrito del usuario
     $carritoInfo = $carritoModel->obtenerResumen($_SESSION['user_id']);

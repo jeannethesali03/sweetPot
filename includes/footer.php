@@ -2,19 +2,23 @@
 
 <!-- Footer (opcional para admin panel) -->
 <?php if (!isset($hideFooter) || !$hideFooter): ?>
-    <footer class="footer-sweetpot mt-auto">
+    <footer class="footer-sweetpot py-3">
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-6">
-                    <p class="mb-0">
-                        <i class="fas fa-heart text-sweetpot-pink"></i>
-                        © <?php echo date('Y'); ?>     <?php echo APP_NAME; ?> v<?php echo APP_VERSION; ?>
-                    </p>
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
+                <div class="d-flex align-items-center gap-2">
+                    <img src="<?php echo BASE_URL; ?>/assets/images/logo-sweetpot.png" alt="logo" style="height:32px;">
+                    <div>
+                        <div class="fw-bold text-sweetpot-brown mb-0"><?php echo APP_NAME; ?></div>
+                        <small class="text-muted">v<?php echo APP_VERSION; ?></small>
+                    </div>
                 </div>
-                <div class="col-md-6 text-md-end">
-                    <small class="text-muted">
-                        Última actualización: <?php echo date('d/m/Y H:i'); ?>
-                    </small>
+
+                <div class="text-center mt-2 mt-md-0">
+                    <small class="text-muted">© <?php echo date('Y'); ?>. Todos los derechos reservados.</small>
+                </div>
+
+                <div class="mt-2 mt-md-0 text-md-end">
+                    <small class="text-muted">Última actualización: <?php echo date('d/m/Y H:i'); ?></small>
                 </div>
             </div>
         </div>
@@ -163,6 +167,56 @@
         });
     }
 </script>
+
+<style>
+    /* Footer styles aligned with SweetPot theme variables */
+    .footer-sweetpot {
+        background: linear-gradient(90deg, var(--sp-cream, #fff), rgba(255, 255, 255, 0.95));
+        border-top: 1px solid rgba(0, 0, 0, 0.04);
+        color: var(--sp-dark-brown, #6b3a2f);
+    }
+
+    .footer-sweetpot img {
+        filter: none;
+    }
+
+    /* Make sidebar stick to the top of the viewport on md+ screens and avoid being pushed by footer */
+    @media (min-width: 768px) {
+        .sidebar-sticky {
+            position: sticky;
+            top: 0;
+            /* stick to very top as requested */
+            height: 100vh;
+            /* full viewport height so footer doesn't push it down */
+            overflow-y: auto;
+            padding-bottom: 1rem;
+            z-index: 1020;
+            /* stay above page content if needed */
+        }
+    }
+
+    /* Improve sidebar link visuals */
+    .sidebar-sweetpot .nav-link.active {
+        color: var(--sp-dark-brown) !important;
+        background: linear-gradient(90deg, rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.02));
+        border-radius: 8px;
+        font-weight: 600;
+    }
+
+    /* Ensure no unexpected gap above footer: reset margins on main content */
+    #main-content {
+        margin-bottom: 0;
+        /* prevent extra spacing */
+        padding-bottom: 0;
+        /* avoid extra padding creating gap */
+    }
+
+    /* Footer spacing control */
+    .footer-sweetpot {
+        padding-top: 12px;
+        padding-bottom: 12px;
+    }
+</style>
 
 <!-- Scripts adicionales para páginas específicas -->
 <?php if (isset($additionalJS)): ?>

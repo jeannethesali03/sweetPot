@@ -10,7 +10,7 @@ function isActive($page, $currentFile)
 ?>
 
 <!-- Sidebar -->
-<nav class="col-md-3 col-lg-2 d-md-block sidebar-sweetpot collapse" id="sidebar">
+<nav class="col-md-3 col-lg-2 d-md-block sidebar-sweetpot sidebar-sticky collapse" id="sidebar">
     <div class="position-sticky pt-3">
         <div class="text-center mb-4">
             <img src="https://i.ibb.co/pjxGjNSR/Sweet-Pot-1.png" alt="SweetPot" class="img-fluid mb-2"

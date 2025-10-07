@@ -30,25 +30,30 @@ $currentPage = basename($_SERVER['PHP_SELF']);
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link <?php echo ($currentPage == 'dashboard.php') ? 'active' : ''; ?>"
+                    <a style="color: white"
+                        class="nav-link <?php echo ($currentPage == 'dashboard.php') ? 'active' : ''; ?>"
                         href="dashboard.php">
                         <i class="fas fa-home"></i> Inicio
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <?php echo ($currentPage == 'productos.php') ? 'active' : ''; ?>"
+                    <a style="color: white"
+                        class="nav-link <?php echo ($currentPage == 'productos.php') ? 'active' : ''; ?>"
                         href="productos.php">
                         <i class="fas fa-birthday-cake"></i> Productos
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link <?php echo ($currentPage == 'mis-pedidos.php' || $currentPage == 'pedidos.php') ? 'active' : ''; ?>"
+                <li style="color: white" class="nav-item">
+                    <a style="color: white"
+                        class="nav-link <?php echo ($currentPage == 'mis-pedidos.php' || $currentPage == 'pedidos.php') ? 'active' : ''; ?>"
                         href="mis-pedidos.php">
                         <i class="fas fa-shopping-bag"></i> Mis Pedidos
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <?php echo ($currentPage == 'perfil.php') ? 'active' : ''; ?>" href="perfil.php">
+                    <a style="color: white"
+                        class="nav-link <?php echo ($currentPage == 'perfil.php') ? 'active' : ''; ?>"
+                        href="perfil.php">
                         <i class="fas fa-user"></i> Mi Perfil
                     </a>
                 </li>
@@ -56,7 +61,8 @@ $currentPage = basename($_SERVER['PHP_SELF']);
 
             <ul class="navbar-nav">
                 <li class="nav-item dropdown">
-                    <a class="nav-link position-relative <?php echo ($currentPage == 'carrito.php') ? 'active' : ''; ?>"
+                    <a style="color: white"
+                        class="nav-link position-relative <?php echo ($currentPage == 'carrito.php') ? 'active' : ''; ?>"
                         href="carrito.php">
                         <i class="fas fa-shopping-cart"></i> Carrito
                         <?php if (isset($carritoInfo['cantidad']) && $carritoInfo['cantidad'] > 0): ?>
@@ -65,8 +71,8 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                     </a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
+                    <a style="color: white" class="nav-link dropdown-toggle" href="#" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-user"></i> <?php echo htmlspecialchars($_SESSION['nombre']); ?>
                     </a>
                     <ul class="dropdown-menu">

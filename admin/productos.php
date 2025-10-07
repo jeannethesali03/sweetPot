@@ -196,10 +196,6 @@ include '../includes/header.php';
                                                         alt="<?php echo htmlspecialchars($producto['nombre']); ?>"
                                                         class="img-thumbnail" style="width: 50px; height: 50px; object-fit: cover;"
                                                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                                                    <div class="bg-light d-flex align-items-center justify-content-center img-thumbnail"
-                                                        style="width: 50px; height: 50px; display: none;">
-                                                        <i class="fas fa-image text-muted"></i>
-                                                    </div>
                                                 <?php else: ?>
                                                     <div class="bg-light d-flex align-items-center justify-content-center img-thumbnail"
                                                         style="width: 50px; height: 50px;">

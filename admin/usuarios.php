@@ -392,7 +392,7 @@ include '../includes/header.php';
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
-                            mostrarExito('Usuario eliminado', 'El usuario se eliminó correctamente');
+                            mostrarExito('Usuario desactivado', 'El usuario se desactivó correctamente');
                             setTimeout(() => location.reload(), 1500);
                         } else {
                             mostrarError('Error', data.message || 'No se pudo eliminar el usuario');

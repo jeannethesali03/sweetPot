@@ -55,18 +55,18 @@ try {
 
     // Nota: Como trabajamos con URLs, no necesitamos eliminar archivos físicos
 
-    // Eliminar producto
+    // Desactivar (soft-delete) producto
     $result = $productoModel->eliminar($productoId);
 
     if ($result) {
         echo json_encode([
             'success' => true,
-            'message' => 'Producto eliminado correctamente'
+            'message' => 'Producto desactivado correctamente'
         ]);
     } else {
         echo json_encode([
             'success' => false,
-            'message' => 'Error al eliminar el producto'
+            'message' => 'Error al desactivar el producto'
         ]);
     }
 

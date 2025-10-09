@@ -165,7 +165,8 @@ class Producto
     public function eliminar($id)
     {
         try {
-            $query = "DELETE FROM productos WHERE id = :id";
+            // Soft-delete: marcar producto como inactivo
+            $query = "UPDATE productos SET estado = 'inactivo' WHERE id = :id";
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':id', $id);
 

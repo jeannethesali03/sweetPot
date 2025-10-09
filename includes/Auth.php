@@ -11,7 +11,19 @@ class Auth
         $usuario = new Usuario();
         $userData = $usuario->login($email, $password);
 
-        if ($userData) {
+        // Si el método devolvió false -> credenciales incorrectas
+        if ($userData === false) {
+            return false;
+        }
+
+        // Si devolvió un arreglo con 'inactive' => true, indicar ese caso especial
+        if (is_array($userData) && isset($userData['inactive']) && $userData['inactive'] === true) {
+            // No iniciar sesión, devolver un valor especial para que el caller lo trate
+            return ['inactive' => true, 'user' => $userData['user']];
+        }
+
+        // En caso de éxito, $userData contiene los datos del usuario
+        if (is_array($userData)) {
             if (session_status() == PHP_SESSION_NONE) {
                 session_start();
             }

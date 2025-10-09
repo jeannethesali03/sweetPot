@@ -53,20 +53,32 @@ class Usuario
     public function login($email, $password)
     {
         try {
-            $query = "SELECT * FROM usuarios WHERE email = :email AND estado = 'activo' LIMIT 1";
+            // Buscar el usuario por email (sin filtrar por estado) para poder detectar cuentas inactivas
+            $query = "SELECT * FROM usuarios WHERE email = :email LIMIT 1";
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':email', $email);
             $stmt->execute();
 
             $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if ($usuario && verifyPassword($password, $usuario['password'])) {
-                // No incluir la contraseña en los datos retornados
-                unset($usuario['password']);
-                return $usuario;
+            // Si no existe el usuario
+            if (!$usuario) {
+                return false;
             }
 
-            return false;
+            // Verificar contraseña
+            if (!verifyPassword($password, $usuario['password'])) {
+                return false;
+            }
+
+            // Si la contraseña es correcta pero el usuario está inactivo, devolver señal específica
+            if (!empty($usuario['estado']) && $usuario['estado'] !== 'activo') {
+                return ['inactive' => true, 'user' => $usuario];
+            }
+
+            // Login exitoso: remover el hash antes de retornar
+            unset($usuario['password']);
+            return $usuario;
 
         } catch (PDOException $e) {
             error_log("Error en login: " . $e->getMessage());
@@ -197,7 +209,8 @@ class Usuario
     public function eliminar($id)
     {
         try {
-            $query = "DELETE FROM usuarios WHERE id = :id";
+            // Soft-delete: marcar el usuario como inactivo en lugar de eliminarlo físicamente
+            $query = "UPDATE usuarios SET estado = 'inactivo' WHERE id = :id";
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':id', $id);
 

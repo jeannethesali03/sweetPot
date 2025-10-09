@@ -31,7 +31,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (!validateEmail($email)) {
         setAlert('error', 'Error', 'Por favor ingrese un email válido');
     } else {
-        if (Auth::login($email, $password)) {
+        $loginResult = Auth::login($email, $password);
+
+        if ($loginResult === true) {
             $user = Auth::getUser();
             setAlert('success', '¡Bienvenido!', 'Has iniciado sesión correctamente');
 
@@ -51,6 +53,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     redirect(URL . 'cliente/dashboard.php');
                     break;
             }
+        } elseif (is_array($loginResult) && isset($loginResult['inactive']) && $loginResult['inactive'] === true) {
+            // Cuenta inactiva
+            setAlert('error', 'Cuenta inactiva', 'La cuenta asociada a este email está desactivada. Contacta a un administrador.');
         } else {
             setAlert('error', 'Error de acceso', 'Email o contraseña incorrectos');
         }

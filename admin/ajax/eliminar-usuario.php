@@ -74,18 +74,18 @@ try {
         }
     }
 
-    // Eliminar usuario
+    // Desactivar (soft-delete) usuario
     $result = $usuarioModel->eliminar($userId);
 
     if ($result) {
         echo json_encode([
             'success' => true,
-            'message' => 'Usuario eliminado correctamente'
+            'message' => 'Usuario desactivado correctamente'
         ]);
     } else {
         echo json_encode([
             'success' => false,
-            'message' => 'Error al eliminar el usuario'
+            'message' => 'Error al desactivar el usuario'
         ]);
     }
 

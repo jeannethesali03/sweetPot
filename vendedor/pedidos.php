@@ -23,6 +23,7 @@ $search = isset($_GET['search']) ? trim($_GET['search']) : '';
 $estado = isset($_GET['estado']) ? $_GET['estado'] : '';
 $fecha_desde = isset($_GET['fecha_desde']) ? $_GET['fecha_desde'] : '';
 $fecha_hasta = isset($_GET['fecha_hasta']) ? $_GET['fecha_hasta'] : '';
+$owner = isset($_GET['owner']) ? $_GET['owner'] : 'all';
 
 try {
     // Construir consulta directamente sin usar el modelo
@@ -39,6 +40,16 @@ try {
     if (!empty($estado)) {
         $whereConditions[] = "v.estado = :estado";
         $params[':estado'] = $estado;
+    }
+
+    // Filtro por propietario/vendedor
+    if ($owner === 'mine') {
+        // Mostrar solo pedidos asignados a este vendedor
+        $whereConditions[] = "v.vendedor_id = :vendedor_id";
+        $params[':vendedor_id'] = $_SESSION['user_id'];
+    } elseif ($owner === 'unassigned') {
+        // Mostrar pedidos sin vendedor asignado
+        $whereConditions[] = "v.vendedor_id IS NULL";
     }
 
     // Agregar filtros de fecha
@@ -268,6 +279,14 @@ try {
                                 <input type="text" class="form-control" id="search" name="search"
                                     value="<?php echo htmlspecialchars($search); ?>"
                                     placeholder="Nº pedido, cliente, email...">
+                            </div>
+                            <div class="col-md-2">
+                                <label for="owner_filter" class="form-label">Propietario</label>
+                                <select id="owner_filter" name="owner" class="form-select">
+                                    <option value="all" <?php echo (isset($_GET['owner']) && $_GET['owner'] === 'all') ? 'selected' : ''; ?>>Todos</option>
+                                    <option value="mine" <?php echo (isset($_GET['owner']) && $_GET['owner'] === 'mine') ? 'selected' : ''; ?>>Mis pedidos</option>
+                                    <option value="unassigned" <?php echo (isset($_GET['owner']) && $_GET['owner'] === 'unassigned') ? 'selected' : ''; ?>>Sin vendedor</option>
+                                </select>
                             </div>
                             <div class="col-md-2">
                                 <label for="estado" class="form-label">Estado</label>
@@ -577,38 +596,55 @@ try {
         function confirmarCambioEstado() {
             const form = document.getElementById('formCambiarEstado');
             const formData = new FormData(form);
-
-            fetch('ajax/cambiar-estado-pedido.php', {
-                method: 'POST',
-                body: formData
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: '¡Estado actualizado!',
-                            text: 'El estado del pedido ha sido actualizado correctamente',
-                            timer: 2000,
-                            showConfirmButton: false
-                        }).then(() => {
-                            location.reload();
-                        });
-                    } else {
+            // Helper to actually post (allow force flag)
+            function postCambio(force = false) {
+                if (force) formData.set('force', '1');
+                fetch('ajax/cambiar-estado-pedido.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: '¡Estado actualizado!',
+                                text: 'El estado del pedido ha sido actualizado correctamente',
+                                timer: 1600,
+                                showConfirmButton: false
+                            }).then(() => location.reload());
+                        } else if (data.conflict) {
+                            // Pedido ya tiene vendedor asignado
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Pedido asignado',
+                                html: `Este pedido ya está asignado a otro vendedor (ID: <strong>${data.assigned_vendedor_id}</strong>). ¿Deseas forzar el cambio y asignarlo a ti?`,
+                                showCancelButton: true,
+                                confirmButtonText: 'Forzar y asignar',
+                                cancelButtonText: 'Cancelar'
+                            }).then((res) => {
+                                if (res.isConfirmed) {
+                                    postCambio(true);
+                                }
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: data.message || 'Error al actualizar el estado'
+                            });
+                        }
+                    })
+                    .catch(error => {
                         Swal.fire({
                             icon: 'error',
                             title: 'Error',
-                            text: data.message || 'Error al actualizar el estado'
+                            text: 'Error de conexión'
                         });
-                    }
-                })
-                .catch(error => {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'Error de conexión'
                     });
-                });
+            }
+
+            postCambio(false);
 
             bootstrap.Modal.getInstance(document.getElementById('modalCambiarEstado')).hide();
         }

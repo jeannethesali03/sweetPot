@@ -1,6 +1,6 @@
 <?php
 // Configuración de la aplicación
-define("URL", "http://192.168.0.7:80/SweetPot/");
+define("URL", "http://192.168.0.2:8888/SweetPot/");
 define("BASE_URL", "http://192.168.0.2:8888/SweetPot");
 define("HOST", "localhost");
 define("DB", "sweetpot_db");

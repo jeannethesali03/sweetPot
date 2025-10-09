@@ -33,6 +33,11 @@ try {
     if (!empty($estado)) {
         $filtros['estado'] = $estado;
     }
+    // Filtrar por existencia de vendedor (all / with / without)
+    $has_vendedor = isset($_GET['has_vendedor']) ? $_GET['has_vendedor'] : 'all';
+    if ($has_vendedor !== 'all') {
+        $filtros['has_vendedor'] = $has_vendedor;
+    }
     if (!empty($fecha_desde)) {
         $filtros['fecha_desde'] = $fecha_desde;
     }
@@ -210,6 +215,14 @@ include '../includes/header.php';
                             </select>
                         </div>
                         <div class="col-md-2">
+                            <label for="has_vendedor" class="form-label">Vendedor</label>
+                            <select class="form-select" id="has_vendedor" name="has_vendedor">
+                                <option value="all" <?php echo ($has_vendedor === 'all') ? 'selected' : ''; ?>>Todos</option>
+                                <option value="with" <?php echo ($has_vendedor === 'with') ? 'selected' : ''; ?>>Con vendedor</option>
+                                <option value="without" <?php echo ($has_vendedor === 'without') ? 'selected' : ''; ?>>Sin vendedor</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
                             <label for="fecha_desde" class="form-label">Desde</label>
                             <input type="date" class="form-control" id="fecha_desde" name="fecha_desde"
                                 value="<?php echo htmlspecialchars($fecha_desde); ?>">
@@ -258,6 +271,7 @@ include '../includes/header.php';
                                     <tr>
                                         <th>Nº Pedido</th>
                                         <th>Cliente</th>
+                                        <th>Vendedor</th>
                                         <th>Fecha</th>
                                         <th>Total</th>
                                         <th>Estado</th>
@@ -273,6 +287,13 @@ include '../includes/header.php';
                                             <td>
                                                 <strong><?php echo htmlspecialchars($pedido['cliente_nombre']); ?></strong>
                                                 <br><small class="text-muted"><?php echo htmlspecialchars($pedido['cliente_email']); ?></small>
+                                            </td>
+                                            <td>
+                                                <?php if (!empty($pedido['vendedor_nombre'])): ?>
+                                                    <strong><?php echo htmlspecialchars($pedido['vendedor_nombre']); ?></strong>
+                                                <?php else: ?>
+                                                    <span class="text-muted">Sin vendedor asignado</span>
+                                                <?php endif; ?>
                                             </td>
                                             <td>
                                                 <?php echo date('d/m/Y H:i', strtotime($pedido['fecha'])); ?>
@@ -365,7 +386,7 @@ include '../includes/header.php';
                         <?php if ($currentPage > 1): ?>
                             <li class="page-item">
                                 <a class="page-link"
-                                    href="?page=<?php echo ($currentPage - 1); ?>&search=<?php echo urlencode($search); ?>&estado=<?php echo urlencode($estado); ?>&fecha_desde=<?php echo urlencode($fecha_desde); ?>&fecha_hasta=<?php echo urlencode($fecha_hasta); ?>">
+                                    href="?page=<?php echo ($currentPage - 1); ?>&search=<?php echo urlencode($search); ?>&estado=<?php echo urlencode($estado); ?>&fecha_desde=<?php echo urlencode($fecha_desde); ?>&fecha_hasta=<?php echo urlencode($fecha_hasta); ?>&has_vendedor=<?php echo urlencode($has_vendedor); ?>">
                                     <i class="fas fa-chevron-left"></i> Anterior
                                 </a>
                             </li>
@@ -374,7 +395,7 @@ include '../includes/header.php';
                         <?php for ($i = max(1, $currentPage - 2); $i <= min($totalPages, $currentPage + 2); $i++): ?>
                             <li class="page-item <?php echo ($i == $currentPage) ? 'active' : ''; ?>">
                                 <a class="page-link"
-                                    href="?page=<?php echo $i; ?>&search=<?php echo urlencode($search); ?>&estado=<?php echo urlencode($estado); ?>&fecha_desde=<?php echo urlencode($fecha_desde); ?>&fecha_hasta=<?php echo urlencode($fecha_hasta); ?>">
+                                    href="?page=<?php echo $i; ?>&search=<?php echo urlencode($search); ?>&estado=<?php echo urlencode($estado); ?>&fecha_desde=<?php echo urlencode($fecha_desde); ?>&fecha_hasta=<?php echo urlencode($fecha_hasta); ?>&has_vendedor=<?php echo urlencode($has_vendedor); ?>">
                                     <?php echo $i; ?>
                                 </a>
                             </li>
@@ -383,7 +404,7 @@ include '../includes/header.php';
                         <?php if ($currentPage < $totalPages): ?>
                             <li class="page-item">
                                 <a class="page-link"
-                                    href="?page=<?php echo ($currentPage + 1); ?>&search=<?php echo urlencode($search); ?>&estado=<?php echo urlencode($estado); ?>&fecha_desde=<?php echo urlencode($fecha_desde); ?>&fecha_hasta=<?php echo urlencode($fecha_hasta); ?>">
+                                    href="?page=<?php echo ($currentPage + 1); ?>&search=<?php echo urlencode($search); ?>&estado=<?php echo urlencode($estado); ?>&fecha_desde=<?php echo urlencode($fecha_desde); ?>&fecha_hasta=<?php echo urlencode($fecha_hasta); ?>&has_vendedor=<?php echo urlencode($has_vendedor); ?>">
                                     Siguiente <i class="fas fa-chevron-right"></i>
                                 </a>
                             </li>

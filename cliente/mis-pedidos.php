@@ -424,6 +424,27 @@ function getEstadoIcon($estado)
             margin-bottom: 2rem;
         }
 
+        /* Make filter children flexible on small screens and prevent overflow */
+        .filtros-pedidos>* {
+            min-width: 0;
+            /* allow flex items to shrink */
+        }
+
+        @media (max-width: 767.98px) {
+            .filtros-pedidos {
+                padding: 1rem;
+            }
+
+            .filtros-pedidos>* {
+                width: 100% !important;
+                /* force stacking */
+            }
+
+            .filtros-pedidos .filtro-label {
+                margin-bottom: 0.25rem;
+            }
+        }
+
         .filtro-label {
             font-weight: 600;
             color: var(--sweetpot-brown);
@@ -732,6 +753,8 @@ function getEstadoIcon($estado)
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/cliente-sweetalert.js"></script>
 
     <script>
         function verDetalles(ventaId) {

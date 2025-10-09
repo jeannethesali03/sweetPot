@@ -178,6 +178,15 @@ class Venta
                 $params[':vendedor_id'] = $filtros['vendedor_id'];
             }
 
+            // Filtrar por existencia de vendedor (with / without)
+            if (!empty($filtros['has_vendedor'])) {
+                if ($filtros['has_vendedor'] === 'with') {
+                    $whereConditions .= " AND v.vendedor_id IS NOT NULL";
+                } elseif ($filtros['has_vendedor'] === 'without') {
+                    $whereConditions .= " AND v.vendedor_id IS NULL";
+                }
+            }
+
             if (!empty($filtros['search'])) {
                 $whereConditions .= " AND (v.numero_pedido LIKE :search1 OR u_cliente.nombre LIKE :search2 OR u_cliente.email LIKE :search3)";
                 $params[':search1'] = '%' . $filtros['search'] . '%';

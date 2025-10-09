@@ -28,7 +28,7 @@ try {
     $conn = $db->getConnection();
 
     // Verificar que el pedido existe
-    $checkQuery = "SELECT id, estado FROM ventas WHERE id = :id";
+    $checkQuery = "SELECT id, estado, vendedor_id FROM ventas WHERE id = :id";
     $checkStmt = $conn->prepare($checkQuery);
     $checkStmt->bindValue(':id', $pedidoId, PDO::PARAM_INT);
     $checkStmt->execute();
@@ -39,9 +39,34 @@ try {
         exit;
     }
 
-    // Actualizar estado
-    $updateQuery = "UPDATE ventas SET estado = :estado, fecha_actualizacion = NOW() WHERE id = :id";
-    $updateStmt = $conn->prepare($updateQuery);
+    // Si el pedido ya tiene un vendedor asignado y no es el actual, devolver conflicto (a menos que force=1)
+    $asignadoVendedorId = $pedido['vendedor_id'];
+    $currentVendedorId = $_SESSION['user_id'] ?? null;
+
+    $force = isset($_POST['force']) && ($_POST['force'] == '1' || $_POST['force'] === 1);
+
+    if (!is_null($asignadoVendedorId) && $asignadoVendedorId != $currentVendedorId && !$force) {
+        echo json_encode([
+            'success' => false,
+            'conflict' => true,
+            'assigned_vendedor_id' => $asignadoVendedorId,
+            'message' => 'Este pedido ya tiene un vendedor asignado.'
+        ]);
+        exit;
+    }
+
+    // Actualizar estado y asignar vendedor_id (si corresponde)
+    // Si no hay vendedor asignado o se fuerza, asignar al vendedor actual
+    if (is_null($asignadoVendedorId) || $force || $asignadoVendedorId == $currentVendedorId) {
+        $updateQuery = "UPDATE ventas SET estado = :estado, vendedor_id = :vendedor_id, fecha_actualizacion = NOW() WHERE id = :id";
+        $updateStmt = $conn->prepare($updateQuery);
+        $updateStmt->bindValue(':vendedor_id', $currentVendedorId, PDO::PARAM_INT);
+    } else {
+        // Caso teórico: no asignar vendedor_id (pero ya manejamos conflicto antes)
+        $updateQuery = "UPDATE ventas SET estado = :estado, fecha_actualizacion = NOW() WHERE id = :id";
+        $updateStmt = $conn->prepare($updateQuery);
+    }
+
     $updateStmt->bindValue(':estado', $nuevoEstado);
     $updateStmt->bindValue(':id', $pedidoId, PDO::PARAM_INT);
 

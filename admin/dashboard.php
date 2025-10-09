@@ -201,7 +201,7 @@ include '../includes/header.php';
                                         <div class="fs-3 text-warning">
                                             <?php echo $estadisticasPedidos['pendiente'] ?? 0; ?>
                                         </div>
-                                        <div class="badge badge-estado-pendiente">Pendientes</div>
+                                        <div class="badge badge-estado-enviado">Pendientes</div>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
@@ -209,7 +209,7 @@ include '../includes/header.php';
                                         <div class="fs-3 text-info">
                                             <?php echo $estadisticasPedidos['en_proceso'] ?? 0; ?>
                                         </div>
-                                        <div class="badge badge-estado-en-proceso">En Proceso</div>
+                                        <div class="badge badge-estado-enviado">En Proceso</div>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
@@ -217,7 +217,7 @@ include '../includes/header.php';
                                         <div class="fs-3 text-sweetpot-pink">
                                             <?php echo $estadisticasPedidos['enviado'] ?? 0; ?>
                                         </div>
-                                        <div class="badge badge-estado-enviado">Enviados</div>
+                                        <div class="badge badge-estado-entregado">Enviados</div>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
@@ -254,11 +254,6 @@ include '../includes/header.php';
                                             <span class="badge bg-warning text-dark"><?php echo $producto['stock']; ?></span>
                                         </div>
                                     <?php endforeach; ?>
-                                </div>
-                                <div class="text-center mt-3">
-                                    <button class="btn btn-sweetpot-secondary btn-sm" onclick="alertaStockBajo()">
-                                        <i class="fas fa-bell"></i> Notificar Vendedores
-                                    </button>
                                 </div>
                             <?php else: ?>
                                 <div class="text-center text-muted">
@@ -401,17 +396,183 @@ include '../includes/header.php';
         }
     }
 
-    // Función para ver detalle de pedido
+    // Función para ver detalle de pedido (abre modal con detalles vía AJAX)
     function verDetallePedido(pedidoId) {
-        // Aquí se haría una llamada AJAX para obtener los detalles
-        mostrarCargando('Cargando detalles del pedido...');
+        // guardar id en variable global para impresión
+        window.pedidoActual = pedidoId;
+        // Asegurarse de que exista el modal en la página
+        if (!document.getElementById('modalDetallePedido')) {
+            const modalHtml = `
+            <div class="modal fade" id="modalDetallePedido" tabindex="-1">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title"><i class="fas fa-clipboard-list me-2"></i> Detalle del Pedido</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body" id="contenidoDetallePedido">
+                            <div class="text-center">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Cargando...</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-primary" onclick="imprimirPedido()"><i class="fas fa-print"></i> Imprimir</button>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+        }
 
-        // Simulación de carga (reemplazar con AJAX real)
-        setTimeout(() => {
-            Swal.close();
-            // Redirigir a la página de detalles del pedido
-            window.location.href = `pedido-detalle.php?id=${pedidoId}`;
-        }, 1000);
+        const modalEl = document.getElementById('modalDetallePedido');
+        const modal = new bootstrap.Modal(modalEl);
+        const modalBody = document.getElementById('contenidoDetallePedido');
+
+        // Mostrar loading
+        modalBody.innerHTML = `
+            <div class="text-center">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Cargando...</span>
+                </div>
+            </div>
+        `;
+
+        modal.show();
+
+        // Cargar detalles via AJAX
+        fetch('ajax/obtener-detalle-pedido.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: pedidoId })
+        })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    // Reusar la función de mostrar detalle si existe, sino render simple
+                    if (typeof mostrarDetallePedido === 'function') {
+                        mostrarDetallePedido(data.pedido);
+                    } else {
+                        // fallback: render basic HTML
+                        let html = '<h5>Pedido #' + (data.pedido.numero_pedido || data.pedido.id) + '</h5>';
+                        html += '<p>Total: $' + (data.pedido.total || '') + '</p>';
+                        html += '<pre>' + JSON.stringify(data.pedido, null, 2) + '</pre>';
+                        modalBody.innerHTML = html;
+                    }
+                } else {
+                    modalBody.innerHTML = `<div class="alert alert-danger">Error: ${data.message || 'No se pudo cargar el pedido'}</div>`;
+                }
+            })
+            .catch(err => {
+                modalBody.innerHTML = `<div class="alert alert-danger">Error de conexión al cargar el pedido</div>`;
+            });
+    }
+
+    // Renderizar el detalle del pedido dentro del modal (misma estructura que admin/pedidos.php)
+    function mostrarDetallePedido(pedido) {
+        const modalBody = document.getElementById('contenidoDetallePedido');
+        let productosHtml = '';
+        let totalProductos = 0;
+
+        if (pedido.productos && pedido.productos.length > 0) {
+            pedido.productos.forEach(producto => {
+                totalProductos += parseInt(producto.cantidad);
+                productosHtml += `
+                    <tr>
+                        <td>
+                            ${producto.producto_imagen ?
+                        `<img src="${producto.producto_imagen}" alt="${producto.producto_nombre}" class="img-thumbnail me-2" style="width: 40px; height: 40px; object-fit: cover;">`
+                        : '<div class="bg-light d-inline-flex align-items-center justify-content-center me-2" style="width: 40px; height: 40px;"><i class="fas fa-image text-muted"></i></div>'}
+                            <strong>${producto.producto_nombre}</strong>
+                            <br><small class="text-muted">${producto.categoria_nombre}</small>
+                        </td>
+                        <td class="text-center">${producto.cantidad}</td>
+                        <td class="text-end">$${parseFloat(producto.precio_unitario).toFixed(2)}</td>
+                        <td class="text-end fw-bold">$${parseFloat(producto.subtotal).toFixed(2)}</td>
+                    </tr>
+                `;
+            });
+        }
+
+        const html = `
+            <div class="row">
+                <div class="col-md-6">
+                    <h6><i class="fas fa-info-circle me-1"></i> Información del Pedido</h6>
+                    <table class="table table-sm">
+                        <tr><td><strong>Número:</strong></td><td>${pedido.numero_pedido}</td></tr>
+                        <tr><td><strong>Fecha:</strong></td><td>${new Date(pedido.fecha).toLocaleString('es-ES')}</td></tr>
+                        <tr><td><strong>Estado:</strong></td><td><span class="badge bg-primary">${pedido.estado.replace('_', ' ').toUpperCase()}</span></td></tr>
+                        <tr><td><strong>Total Productos:</strong></td><td>${totalProductos}</td></tr>
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    <h6><i class="fas fa-user me-1"></i> Información del Cliente</h6>
+                    <table class="table table-sm">
+                        <tr><td><strong>Nombre:</strong></td><td>${pedido.cliente_nombre}</td></tr>
+                        <tr><td><strong>Email:</strong></td><td>${pedido.cliente_email}</td></tr>
+                        <tr><td><strong>Teléfono:</strong></td><td>${pedido.cliente_telefono || 'No especificado'}</td></tr>
+                        <tr><td><strong>Vendedor:</strong></td><td>${pedido.vendedor_nombre || 'Venta Online'}</td></tr>
+                    </table>
+                </div>
+            </div>
+            ${pedido.direccion_entrega ? `
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <h6><i class="fas fa-map-marker-alt me-1"></i> Dirección de Entrega</h6>
+                        <p class="bg-light p-2 rounded">${pedido.direccion_entrega}</p>
+                    </div>
+                </div>
+            ` : ''}
+            ${pedido.comentarios ? `
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <h6><i class="fas fa-comment me-1"></i> Comentarios</h6>
+                        <p class="bg-light p-2 rounded">${pedido.comentarios}</p>
+                    </div>
+                </div>
+            ` : ''}
+            <div class="row mt-3">
+                <div class="col-12">
+                    <h6><i class="fas fa-shopping-cart me-1"></i> Productos del Pedido</h6>
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Producto</th>
+                                    <th class="text-center">Cantidad</th>
+                                    <th class="text-end">Precio Unit.</th>
+                                    <th class="text-end">Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${productosHtml}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-8"></div>
+                <div class="col-md-4">
+                    <table class="table table-sm">
+                        <tr><td><strong>Subtotal:</strong></td><td class="text-end">$${parseFloat(pedido.subtotal).toFixed(2)}</td></tr>
+                        <tr><td><strong>Impuestos:</strong></td><td class="text-end">$${parseFloat(pedido.impuestos).toFixed(2)}</td></tr>
+                        <tr><td><strong>Descuento:</strong></td><td class="text-end">-$${parseFloat(pedido.descuento).toFixed(2)}</td></tr>
+                        <tr class="table-success"><td><strong>TOTAL:</strong></td><td class="text-end fw-bold">$${parseFloat(pedido.total).toFixed(2)}</td></tr>
+                    </table>
+                </div>
+            </div>
+        `;
+
+        modalBody.innerHTML = html;
+    }
+
+    function imprimirPedido() {
+        if (window.pedidoActual) {
+            window.open(`ajax/imprimir-pedido.php?id=${window.pedidoActual}`, '_blank');
+        }
     }
 
     // Auto-actualizar estadísticas cada 5 minutos
